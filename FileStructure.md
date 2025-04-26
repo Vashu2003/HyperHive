@@ -6,17 +6,19 @@ This is the complete folder and file structure for the **HyperHive** full-stack 
 
 ## Root Directory
 
+```
 hyperhive/
 ├── client/
 ├── server/
 ├── README.md
 ├── .gitignore
-
+```
 ---
 
 ## 📦 Frontend — (React + Tailwind CSS + Vite)
 
 **Path: `/client`**
+
 ```
 client/
 ├── public/
@@ -77,7 +79,7 @@ client/
 
 **Path: `/server`**
 
-
+```
 server/
 ├── src/
 │   ├── config/
@@ -115,7 +117,7 @@ server/
 ├── package.json
 ├── .gitignore
 └── README.md
-
+```
 
 ---
 
