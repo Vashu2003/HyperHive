@@ -1,8 +1,8 @@
 # HyperHive - Full Project Checklist (With Git & Version Control)
 
 ## Setup
-- [ ] Initialize Vite + React project
-- [ ] Setup TailwindCSS 4.1
+- [x] Initialize Vite + React project
+- [x] Setup TailwindCSS 4.1
 - [ ] Initialize Express backend
 - [ ] Connect to MongoDB Atlas
 - [ ] Setup environment variables (.env)
