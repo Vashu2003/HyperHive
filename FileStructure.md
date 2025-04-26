@@ -7,19 +7,18 @@ This is the complete folder and file structure for the **HyperHive** full-stack 
 ## Root Directory
 
 hyperhive/
-├── backend/
-├── frontend/
+├── client/
+├── server/
 ├── README.md
 ├── .gitignore
-├── package.json (optional at root if monorepo)
 
 ---
 
 ## 📦 Frontend — (React + Tailwind CSS + Vite)
 
-**Path: `/frontend`**
+**Path: `/client`**
 
-frontend/
+client/
 ├── public/
 │   └── index.html
 │
@@ -72,15 +71,14 @@ frontend/
 ├── vite.config.js
 └── README.md
 
-
 ---
 
 ## 📦 Backend — (Node.js + Express + MongoDB)
 
-**Path: `/backend`**
+**Path: `/server`**
 
 
-backend/
+server/
 ├── src/
 │   ├── config/
 │   │   └── db.js             # MongoDB connection setup
