@@ -17,7 +17,7 @@ hyperhive/
 ## 📦 Frontend — (React + Tailwind CSS + Vite)
 
 **Path: `/client`**
-
+```
 client/
 ├── public/
 │   └── index.html
@@ -70,7 +70,7 @@ client/
 ├── postcss.config.js
 ├── vite.config.js
 └── README.md
-
+```
 ---
 
 ## 📦 Backend — (Node.js + Express + MongoDB)
