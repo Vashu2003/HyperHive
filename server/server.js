@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
+
+dotenv.config();
+
 import connectDB from './src/config/db.js';
 import app from './src/app.js';
 
-dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,3 +16,4 @@ connectDB().then(() => {
 }).catch((error) => {
     console.error('Database connection failed:', error);
 });
+

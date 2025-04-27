@@ -1,6 +1,6 @@
 # 🚀 HyperHive
 
-HyperHive is a futuristic collaborative study management platform for students, built with the modern MERN stack and TailwindCSS 4.1.
+HyperHive is a futuristic collaborative study management platform for students, built with the modern MERN stack.
 
 ---
 
