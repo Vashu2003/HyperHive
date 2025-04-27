@@ -3,9 +3,9 @@
 ## Setup
 - [x] Initialize Vite + React project
 - [x] Setup TailwindCSS 4.1
-- [ ] Initialize Express backend
-- [ ] Connect to MongoDB Atlas
-- [ ] Setup environment variables (.env)
+- [x] Initialize Express backend
+- [x] Connect to MongoDB Atlas
+- [x] Setup environment variables (.env)
 - [ ] Setup environment variables for production
 - [ ] Connect frontend to production backend
 
