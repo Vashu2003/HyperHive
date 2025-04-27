@@ -1,35 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: "class", // 👈 ADD this line for dark mode support
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js,jsx,ts,tsx}",
   ],
+  darkMode: 'class', // Enables dark mode by adding 'class' to html
   theme: {
     extend: {
-      // Optional: Shadcn and Snappy UI will use these
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        background: {
+          light: '#ffffff', // White background
+          dark: '#000000',   // Black background
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+        text: {
+          light: '#111111',  // Almost black text (better for readability)
+          dark: '#eeeeee',   // Light text for dark backgrounds
         },
-        // ... add more if needed later
+        muted: {
+          light: '#f4f4f5',  // Light muted background
+          dark: '#1f1f1f',   // Dark muted background
+        },
+        border: {
+          light: '#e4e4e7',  // Light gray border
+          dark: '#27272a',   // Dark border
+        },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        'xl': '1rem',   // For softer rounded edges
+        '2xl': '1.5rem',
       },
     },
   },
   plugins: [],
-}
+};
+
