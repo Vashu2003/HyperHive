@@ -4,11 +4,11 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
-import { ThemeProvider } from "./context/ThemeContext";  // Import the ThemeProvider
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <ThemeProvider>  {/* Wrap the app with ThemeProvider */}
+    <AuthProvider>
     <div className="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
     <Router>
           <Navbar />
@@ -22,7 +22,7 @@ function App() {
         </div>
       </Router>
       </div>
-    </ThemeProvider>
+    </AuthProvider>
   );
 }
 

@@ -1,13 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // 👈
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login attempted with:", { email, password });
+
+    try {
+      const userData = await loginUser(email, password); // Call API
+      console.log("Logged in user:", userData);
+
+      // Optionally store token in localStorage
+      localStorage.setItem("token", userData.token);
+
+      navigate("/dashboard"); // Redirect to dashboard
+    } catch (error) {
+      console.error("Login failed:", error.response?.data?.message || error.message);
+      alert(error.response?.data?.message || "Login failed");
+    }
   };
 
   return (

@@ -1,17 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // Add your signup logic here (e.g., API call, validation)
-    console.log("Signup attempted with:", { name, email, password, confirmPassword });
-  };
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+        const userData = await registerUser(name, email, password);
+        console.log("Registered user:", userData);
+  
+        localStorage.setItem("token", userData.token);
+  
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Signup failed:", error.response?.data?.message || error.message);
+        alert(error.response?.data?.message || "Signup failed");
+      }
+    };
+
 
   return (
     <div className="min-h-[90vh] bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex items-center justify-center">
@@ -21,7 +39,9 @@ function Signup() {
         <form onSubmit={handleSignup}>
           {/* Name Input */}
           <div className="mb-6">
-            <label htmlFor="name" className="block text-sm font-medium">Name</label>
+            <label htmlFor="name" className="block text-sm font-medium">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -34,7 +54,9 @@ function Signup() {
 
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="block text-sm font-medium">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -47,7 +69,9 @@ function Signup() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -60,7 +84,12 @@ function Signup() {
 
           {/* Confirm Password Input */}
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium">Confirm Password</label>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium"
+            >
+              Confirm Password
+            </label>
             <input
               type="password"
               id="confirmPassword"
