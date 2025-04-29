@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -8,6 +9,8 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -21,7 +24,7 @@ function Signup() {
         const userData = await registerUser(name, email, password);
         console.log("Registered user:", userData);
   
-        localStorage.setItem("token", userData.token);
+        login(userData.token);
   
         navigate("/dashboard");
       } catch (error) {

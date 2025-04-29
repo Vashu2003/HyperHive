@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // 👈
+  const { login } = useAuth();
 
 
   const handleLogin = async (e) => {
@@ -15,8 +17,7 @@ function Login() {
       const userData = await loginUser(email, password); // Call API
       console.log("Logged in user:", userData);
 
-      // Optionally store token in localStorage
-      localStorage.setItem("token", userData.token);
+      login(userData.token); // Use the login function from AuthContext
 
       navigate("/dashboard"); // Redirect to dashboard
     } catch (error) {
