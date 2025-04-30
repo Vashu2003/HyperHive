@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
@@ -15,10 +15,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route
-            path="/dashboard"
+            path="/"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <Home />
               </PrivateRoute>
             }
           />

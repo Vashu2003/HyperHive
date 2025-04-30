@@ -26,7 +26,7 @@ function Signup() {
   
         login(userData.token);
   
-        navigate("/dashboard");
+        navigate("/");
       } catch (error) {
         console.error("Signup failed:", error.response?.data?.message || error.message);
         alert(error.response?.data?.message || "Signup failed");

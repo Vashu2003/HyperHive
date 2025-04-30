@@ -15,16 +15,13 @@ function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 flex justify-between items-center px-6 py-4 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark z-50 shadow-md">
+    <nav className="top-0 left-0 right-0 flex justify-between items-center px-6 py-4 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark z-50">
       {/* Left: Logo or Links */}
-      <div className="flex items-center space-x-6">
+      <div className="font-mono pl-12 text-xl">
         {isAuthenticated && (
-          <ul className="flex space-x-8 text-lg font-medium">
-            <Link to="/dashboard">
+            <Link to="/">
               HyperHive
             </Link>
-            {/* Add more links here if needed */}
-          </ul>
         )}
       </div>
 

@@ -10,45 +10,49 @@ export const useAuth = () => {
 
 // Create a provider component
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to false
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // <-- added loading state
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     if (token) {
-      // Optionally, verify token expiry (if it's a JWT token, for example)
-      const isValidToken = verifyTokenExpiry(token);  // Custom function to check expiry
+      const isValidToken = verifyTokenExpiry(token);
       if (isValidToken) {
-        setIsAuthenticated(true); // User is authenticated
+        setIsAuthenticated(true);
       } else {
-        logout(); // Token is invalid, so log the user out
+        logout();
       }
     }
+
+    setLoading(false); // <-- auth check is done
   }, []);
 
   // Function to verify token expiry
   const verifyTokenExpiry = (token) => {
     try {
-      const decoded = JSON.parse(atob(token.split(".")[1]));  // Decode JWT
-      const currentTime = Date.now() / 1000; // Current time in seconds
-      return decoded.exp > currentTime; // Check if token is expired
+      const decoded = JSON.parse(atob(token.split(".")[1]));
+      const currentTime = Date.now() / 1000;
+      return decoded.exp > currentTime;
     } catch (error) {
-      return false; // If any error occurs in decoding, return false
+      return false;
     }
   };
 
   const login = (token) => {
-    localStorage.setItem("token", token); // Store token
+    localStorage.setItem("token", token);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
-    localStorage.removeItem("token"); // Remove token
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

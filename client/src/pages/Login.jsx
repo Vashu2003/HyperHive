@@ -19,7 +19,7 @@ function Login() {
 
       login(userData.token); // Use the login function from AuthContext
 
-      navigate("/dashboard"); // Redirect to dashboard
+      navigate("/"); // Redirect to dashboard
     } catch (error) {
       console.error("Login failed:", error.response?.data?.message || error.message);
       alert(error.response?.data?.message || "Login failed");
