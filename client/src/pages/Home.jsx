@@ -1,26 +1,23 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import GroupDetails from "../components/GroupDetails";
-import { useGroups } from "../context/GroupContext"; // Assuming context provides selectedGroup
+import MainSection from "../components/MainSection";
+import { useGroups } from "../context/GroupContext";
 
 function Dashboard() {
-  const { groups } = useGroups();
-  const selectedGroup = groups?.[0]; // Replace with actual selection logic
+  const { groups, selectedGroup } = useGroups(); // Replace with actual logic when ready
+  const groupToShow = selectedGroup || groups?.[0]; // Fallback if no group is selected
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
-      {/* Left: Group Details */}
-      <GroupDetails group={selectedGroup} />
-
-      {/* Middle: Placeholder for now */}
-      <main className="flex-1 p-4 bg-muted-light dark:bg-muted-dark">
-        <h1 className="text-xl font-mono text-text-light dark:text-text-dark">
-          Select a project to get started.
-        </h1>
-      </main>
-
-      {/* Right: Sidebar */}
+      {/* Left: Sidebar */}
       <Sidebar />
+
+      {/* Middle: Main section (tabs like tasks, notes, etc.) */}
+      <MainSection />
+
+      {/* Right: Group Details */}
+      <GroupDetails group={groupToShow} />
     </div>
   );
 }
