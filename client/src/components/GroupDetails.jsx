@@ -3,8 +3,8 @@ import { format } from "date-fns";
 
 const GroupDetails = ({ group, memberData }) => {
   // Debugging log to check if group and memberData are passed correctly
-  console.log("Group Data:", group);
-  console.log("Member Data:", memberData);
+//   console.log("Group Data:", group);
+//   console.log("Member Data:", memberData);
 
   if (!group) {
     return (

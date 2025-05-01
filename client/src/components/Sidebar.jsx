@@ -2,13 +2,26 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Plus, Search, Folder, Menu, X } from "lucide-react";
 import { useGroups } from "../context/GroupContext";
+import CreateGroupModal from "./CreateGroupModal"; // Import modal
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to toggle modal visibility
   const location = useLocation();
   const { groups, loading, error } = useGroups();
 
-  const isActive = (groupId) => location.pathname.includes(`/groups/${groupId}`);
+  const isActive = (groupId) =>
+    location.pathname.includes(`/groups/${groupId}`);
+
+  // Function to handle opening the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to handle closing the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -39,8 +52,11 @@ const Sidebar = () => {
           <span>Projects</span>
         </div>
 
-        {/* Create Group */}
-        <button className="w-full flex items-center gap-2 text-sm text-primary text-mono hover:underline transition font-mono">
+        {/* Create Group Button */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="w-full flex items-center gap-2 text-sm text-primary text-mono hover:underline transition font-mono"
+        >
           <Plus className="w-4 h-4" />
           Create Project
         </button>
@@ -57,7 +73,11 @@ const Sidebar = () => {
 
         {/* Group List */}
         <ul className="space-y-2">
-          {loading && <li className="text-sm text-mono text-muted-foreground">Loading...</li>}
+          {loading && (
+            <li className="text-sm text-mono text-muted-foreground">
+              Loading...
+            </li>
+          )}
           {error && <li className="text-sm text-red-500">{error}</li>}
           {!loading &&
             !error &&
@@ -77,6 +97,12 @@ const Sidebar = () => {
             ))}
         </ul>
       </aside>
+
+      {/* Create Project Modal */}
+      <CreateGroupModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };

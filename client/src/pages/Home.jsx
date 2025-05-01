@@ -1,12 +1,16 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import GroupDetails from "../components/GroupDetails";
 import MainSection from "../components/MainSection";
 import { useGroups } from "../context/GroupContext";
 
 function Dashboard() {
-  const { groups, selectedGroup } = useGroups(); // Replace with actual logic when ready
-  const groupToShow = selectedGroup || groups?.[0]; // Fallback if no group is selected
+  const { groupId } = useParams(); // 🧠 Get the groupId from the route
+  const { groups } = useGroups();
+
+  // 🎯 Find the group that matches the URL param
+  const groupToShow = groups?.find((g) => g._id === groupId) || groups?.[0];
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">

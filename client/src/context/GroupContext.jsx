@@ -1,24 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axiosInstance from "../api/axios";  // Import the custom axios instance
+import axiosInstance from "../api/axios";
 
-// Create a context for groups
 const GroupContext = createContext();
 
-// Custom hook to use the GroupContext
 export const useGroups = () => {
   return useContext(GroupContext);
 };
 
-// Create the GroupProvider to wrap your app and provide the groups data
 export const GroupProvider = ({ children }) => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch groups data from the API
+  // Fetch groups on mount
   useEffect(() => {
     const fetchGroups = async () => {
-      const token = localStorage.getItem("token"); // Get token from localStorage
+      const token = localStorage.getItem("token");
 
       if (!token) {
         setError("No token found. Please log in.");
@@ -28,25 +25,41 @@ export const GroupProvider = ({ children }) => {
 
       try {
         const response = await axiosInstance.get("/api/groups", {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-
-        setGroups(response.data); // Assuming the response contains the group data
-        setLoading(false);
+        setGroups(response.data);
       } catch (err) {
         console.error(err);
         setError("Error fetching groups.");
+      } finally {
         setLoading(false);
       }
     };
 
     fetchGroups();
-  }, []); // Empty dependency array to fetch once on mount
+  }, []);
+
+  // Create group function
+  const createGroup = async ({ name, description }) => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token");
+
+    const response = await axiosInstance.post(
+      "/api/groups/create",
+      { name, description },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // Update local state with new group
+    setGroups((prev) => [response.data, ...prev]);
+  };
 
   return (
-    <GroupContext.Provider value={{ groups, loading, error }}>
+    <GroupContext.Provider value={{ groups, loading, error, createGroup }}>
       {children}
     </GroupContext.Provider>
   );
