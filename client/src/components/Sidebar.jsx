@@ -2,26 +2,19 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Plus, Search, Folder, Menu, X } from "lucide-react";
 import { useGroups } from "../context/GroupContext";
-import CreateGroupModal from "./CreateGroupModal"; // Import modal
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to toggle modal visibility
+  const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
   const { groups, loading, error } = useGroups();
 
-  const isActive = (groupId) =>
-    location.pathname.includes(`/groups/${groupId}`);
+  const isActive = (groupId) => location.pathname.includes(`/groups/${groupId}`);
 
-  // Function to handle opening the modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Function to handle closing the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  // 🔍 Filter groups based on searchTerm
+  const filteredGroups = groups.filter((group) =>
+    group.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -52,11 +45,8 @@ const Sidebar = () => {
           <span>Projects</span>
         </div>
 
-        {/* Create Group Button */}
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="w-full flex items-center gap-2 text-sm text-primary text-mono hover:underline transition font-mono"
-        >
+        {/* Create Group */}
+        <button className="w-full flex items-center gap-2 text-sm text-primary text-mono hover:underline transition font-mono">
           <Plus className="w-4 h-4" />
           Create Project
         </button>
@@ -66,6 +56,8 @@ const Sidebar = () => {
           <input
             type="text"
             placeholder="Search projects..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full font-mono px-3 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-sm text-text-light dark:text-text-dark border border-border-light dark:border-border-dark focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
@@ -73,15 +65,14 @@ const Sidebar = () => {
 
         {/* Group List */}
         <ul className="space-y-2">
-          {loading && (
-            <li className="text-sm text-mono text-muted-foreground">
-              Loading...
-            </li>
-          )}
+          {loading && <li className="text-sm text-mono text-muted-foreground">Loading...</li>}
           {error && <li className="text-sm text-red-500">{error}</li>}
+          {!loading && !error && filteredGroups.length === 0 && (
+            <li className="text-sm text-muted-foreground">No matching projects.</li>
+          )}
           {!loading &&
             !error &&
-            groups.map((group) => (
+            filteredGroups.map((group) => (
               <li key={group._id}>
                 <Link
                   to={`/groups/${group._id}`}
@@ -97,12 +88,6 @@ const Sidebar = () => {
             ))}
         </ul>
       </aside>
-
-      {/* Create Project Modal */}
-      <CreateGroupModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </>
   );
 };

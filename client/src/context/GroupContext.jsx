@@ -11,6 +11,7 @@ export const GroupProvider = ({ children }) => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [nonMembers, setNonMembers] = useState([]); // To store users not in the group
 
   // Fetch groups - now a reusable function
   const fetchGroups = async () => {
@@ -31,6 +32,49 @@ export const GroupProvider = ({ children }) => {
       setError("Error fetching groups.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Fetch non-members of a group
+  const fetchNonMembers = async (groupId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("No token found. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(`/api/groups/non-members/${groupId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setNonMembers(response.data); // Set the non-members
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching non-members.");
+    }
+  };
+
+  // Add a member to the group
+  const addMemberToGroup = async (groupId, userId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("No token found. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.put(
+        `/api/groups/add-member/${groupId}`,
+        { userId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      // Re-fetch the groups after the update
+      fetchGroups();
+    } catch (err) {
+      console.error(err);
+      setError("Error adding member to group.");
     }
   };
 
@@ -56,7 +100,16 @@ export const GroupProvider = ({ children }) => {
 
   return (
     <GroupContext.Provider
-      value={{ groups, loading, error, createGroup, fetchGroups }}
+      value={{
+        groups,
+        loading,
+        error,
+        createGroup,
+        fetchGroups,
+        nonMembers,
+        fetchNonMembers,
+        addMemberToGroup,
+      }}
     >
       {children}
     </GroupContext.Provider>

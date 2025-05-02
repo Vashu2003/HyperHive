@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Tasks from "./Tasks";
-import Calendar from "./Calendar";
+import Timeline from "./Timeline";
 import Notes from "./Notes";
 import Discussions from "./Discussions";
 import Meeting from "./Meeting";
 
-const tabs = ["Tasks", "Calendar", "Notes", "Discussions", "Meetings"];
+const tabs = ["Tasks", "Timeline", "Notes", "Discussions", "Meetings"];
 
 const MainSection = () => {
   const [activeTab, setActiveTab] = useState("Tasks");
@@ -14,8 +14,8 @@ const MainSection = () => {
     switch (activeTab) {
       case "Tasks":
         return <Tasks />;
-      case "Calendar":
-        return <Calendar />;
+      case "Timeline":
+        return <Timeline />;
       case "Notes":
         return <Notes />;
       case "Discussions":

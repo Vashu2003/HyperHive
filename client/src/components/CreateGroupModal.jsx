@@ -59,7 +59,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
+              className="font-mono w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
               placeholder="Enter group description"
             />
           </div>
@@ -68,14 +68,14 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm rounded-md bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border"
+              className="font-mono px-4 py-2 text-sm rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm rounded-md bg-primary text-white font-semibold"
-            >
+              className="font-mono px-4 py-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+              >
               Create
             </button>
           </div>

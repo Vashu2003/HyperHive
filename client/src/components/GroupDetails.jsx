@@ -140,7 +140,7 @@ const GroupDetails = ({ group, memberData }) => {
         {isEditing ? (
           <button
             onClick={handleUpdateGroup}
-            className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-dark transition"
+            className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
           >
             Save
           </button>
