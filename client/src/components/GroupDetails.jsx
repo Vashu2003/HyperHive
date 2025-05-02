@@ -5,23 +5,18 @@ import axiosInstance from "../api/axios";
 
 const GroupDetails = ({ group, memberData }) => {
   const { fetchGroups } = useGroups();
-
-  // Hooks MUST come before any return
   const [isEditing, setIsEditing] = useState(false);
   const [groupData, setGroupData] = useState({ name: "", description: "" });
+  const [nonMembers, setNonMembers] = useState([]);
   const [memberNames, setMemberNames] = useState([]);
 
-  // Sync group data to input fields
   useEffect(() => {
-    if (group) {
-      setGroupData({
-        name: group.name || "",
-        description: group.description || "",
-      });
+    if (group && group._id) {
+      setGroupData({ name: group.name, description: group.description });
+      fetchNonMembers(group._id);
     }
   }, [group]);
 
-  // Resolve member names
   useEffect(() => {
     if (group?.members && Array.isArray(group.members) && memberData) {
       const names = group.members.map((id) => {
@@ -32,23 +27,41 @@ const GroupDetails = ({ group, memberData }) => {
     }
   }, [group?.members, memberData]);
 
-  // Guard clause after hooks
-  if (!group) {
-    return (
-      <div className="p-4 text-sm font-mono text-muted-foreground">
-        No group selected.
-      </div>
-    );
-  }
+  const fetchNonMembers = async (groupId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axiosInstance.get(
+        `/api/groups/${groupId}/non-members`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setNonMembers(response.data);
+    } catch (error) {
+      console.error("Error fetching non-members", error);
+    }
+  };
 
-  const createdDate = group.createdAt
-    ? format(new Date(group.createdAt), "PP")
-    : "Unknown date";
+  const handleAddMember = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axiosInstance.put(
+        `/api/groups/${group._id}/add-member`,
+        { userId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchGroups();
+      fetchNonMembers(group._id);
+    } catch (err) {
+      console.error("Error adding member:", err);
+    }
+  };
 
   const handleUpdateGroup = async () => {
     try {
       const token = localStorage.getItem("token");
-
       await axiosInstance.put(
         `/api/groups/update/${group._id}`,
         groupData,
@@ -56,7 +69,6 @@ const GroupDetails = ({ group, memberData }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
       setIsEditing(false);
       fetchGroups();
     } catch (err) {
@@ -67,19 +79,31 @@ const GroupDetails = ({ group, memberData }) => {
   const handleDeleteGroup = async () => {
     try {
       const token = localStorage.getItem("token");
-
       await axiosInstance.delete(`/api/groups/delete/${group._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       fetchGroups();
     } catch (err) {
       console.error("Error deleting group:", err);
     }
   };
 
+  if (!group) {
+    return (
+      <div className="p-4 text-sm font-mono text-muted-foreground">
+        No group selected.
+      </div>
+    );
+  }
+
+  let createdDate = "Unknown date";
+  try {
+    createdDate = format(new Date(group.createdAt), "PP");
+  } catch {}
+
   return (
     <aside className="w-full md:w-80 border-r border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-4 font-mono space-y-4">
+      {/* Title */}
       <div>
         <h2 className="text-xl font-semibold text-text-light dark:text-text-dark">
           {isEditing ? (
@@ -95,9 +119,12 @@ const GroupDetails = ({ group, memberData }) => {
             group.name
           )}
         </h2>
-        <p className="text-xs text-muted-foreground">Created on {createdDate}</p>
+        <p className="text-xs text-muted-foreground">
+          Created on {createdDate}
+        </p>
       </div>
 
+      {/* Description */}
       <div>
         {isEditing ? (
           <textarea
@@ -114,19 +141,21 @@ const GroupDetails = ({ group, memberData }) => {
         )}
       </div>
 
+      {/* Metadata */}
       <div className="space-y-1 text-xs text-muted-foreground">
         <p>
           <span className="font-semibold">Group ID:</span> {group._id}
         </p>
         <p>
           <span className="font-semibold">Owner Name:</span>{" "}
-          {group.createdBy?.name || "Unknown"}
+          {group.createdBy.name}
         </p>
         <p>
           <span className="font-semibold">Members:</span>{" "}
           {Array.isArray(group.members) ? group.members.length : "Unknown"}
         </p>
 
+        {/* Member names */}
         {memberNames.length > 0 && (
           <ul className="list-disc pl-5 text-[11px] text-text-light dark:text-text-dark">
             {memberNames.map((name, index) => (
@@ -136,11 +165,34 @@ const GroupDetails = ({ group, memberData }) => {
         )}
       </div>
 
+      {/* Add Members Section (only in edit mode) */}
+      {isEditing && (
+        <div>
+          <h3 className="text-lg font-semibold text-text-light dark:text-text-dark mt-4">
+            Add Members:
+          </h3>
+          <ul className="list-disc pl-5 text-sm text-text-light dark:text-text-dark space-y-2">
+            {nonMembers.map((user) => (
+              <li key={user._id} className="flex justify-between items-center">
+                <span>{user.name} ({user.email})</span>
+                <button
+                  onClick={() => handleAddMember(user._id)}
+                  className="ml-4 px-2 py-1 text-xs bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                  Add
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Buttons */}
       <div className="flex space-x-4 mt-4">
         {isEditing ? (
           <button
             onClick={handleUpdateGroup}
-            className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+            className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-dark transition"
           >
             Save
           </button>
@@ -148,16 +200,14 @@ const GroupDetails = ({ group, memberData }) => {
           <button
             onClick={() => setIsEditing(true)}
             className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
-
           >
             Edit
           </button>
         )}
-
         <button
           onClick={handleDeleteGroup}
-          className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
-          >
+          className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+        >
           Delete
         </button>
       </div>

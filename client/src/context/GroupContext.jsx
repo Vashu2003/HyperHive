@@ -44,7 +44,7 @@ export const GroupProvider = ({ children }) => {
     }
 
     try {
-      const response = await axiosInstance.get(`/api/groups/non-members/${groupId}`, {
+      const response = await axiosInstance.get(`/api/groups/${groupId}/non-members`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNonMembers(response.data); // Set the non-members
@@ -64,7 +64,7 @@ export const GroupProvider = ({ children }) => {
 
     try {
       const response = await axiosInstance.put(
-        `/api/groups/add-member/${groupId}`,
+        `/api/groups/${groupId}/add-member`,
         { userId },
         {
           headers: { Authorization: `Bearer ${token}` },
