@@ -5,7 +5,8 @@ import {
     updateGroup, 
     deleteGroup, 
     getNonMembers,
-    addMemberToGroup } from "../controllers/groupController.js";
+    addMemberToGroup,
+    removeMemberFromGroup } from "../controllers/groupController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -19,6 +20,7 @@ router.put("/update/:id", protect, updateGroup);
 router.delete("/delete/:id", protect, deleteGroup);
 router.get("/:groupId/non-members", protect, getNonMembers);
 router.put("/:groupId/add-member", protect, addMemberToGroup);
+router.put("/:groupId/remove-member", protect, removeMemberFromGroup);
 
 
 

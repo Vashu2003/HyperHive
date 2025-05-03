@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import GroupDetails from "../components/GroupDetails";
+import GroupDetails from "../components/GroupDetails/GroupDetails";
 import MainSection from "../components/MainSection";
 import { useGroups } from "../context/GroupContext";
 
@@ -11,6 +11,7 @@ function Dashboard() {
 
   // 🎯 Find the group that matches the URL param
   const groupToShow = groups?.find((g) => g._id === groupId) || groups?.[0];
+  console.log("groupToShow", groupToShow);
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
@@ -21,7 +22,7 @@ function Dashboard() {
       <MainSection />
 
       {/* Right: Group Details */}
-      <GroupDetails group={groupToShow} />
+      <GroupDetails group={groupToShow} memberData={groupToShow?.members || []} />
     </div>
   );
 }

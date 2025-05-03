@@ -27,10 +27,9 @@ export const createGroup = async (req, res) => {
 // @desc    Get all groups of the user
 export const getGroups = async (req, res) => {
   try {
-    const groups = await Group.find({ members: req.user._id }).populate(
-      "createdBy",
-      "name email"
-    );
+    const groups = await Group.find({ members: req.user._id })
+      .populate("createdBy", "name email")
+      .populate("members", "name email");
 
     res.status(200).json(groups);
   } catch (error) {
@@ -116,7 +115,6 @@ export const getNonMembers = async (req, res) => {
   }
 };
 
-
 // Add a member to a group
 export const addMemberToGroup = async (req, res) => {
   const { groupId } = req.params;
@@ -143,10 +141,54 @@ export const addMemberToGroup = async (req, res) => {
     group.members.push(userId);
     await group.save();
 
-    res.status(200).json({ message: "Member added successfully", group });
+    // Populate members after adding a new one
+    const updatedGroup = await Group.findById(groupId).populate(
+      "members",
+      "name email"
+    );
+
+    res
+      .status(200)
+      .json({ message: "Member added successfully", group: updatedGroup });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 };
 
+// Remove a member from a group
+export const removeMemberFromGroup = async (req, res) => {
+  const { groupId } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const group = await Group.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    // 🔐 Only the group owner can remove members
+    if (group.createdBy.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Not authorized to remove members" });
+    }
+
+    // 🛑 Ensure user is a member
+    if (!group.members.includes(userId)) {
+      return res
+        .status(400)
+        .json({ message: "User is not a member of this group" });
+    }
+
+    // ✅ Remove user
+    group.members = group.members.filter((id) => id.toString() !== userId);
+    await group.save();
+
+    res.status(200).json({ message: "Member removed successfully", group });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
