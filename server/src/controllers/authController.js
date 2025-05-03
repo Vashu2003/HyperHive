@@ -17,7 +17,6 @@ export const registerUser = async (req, res) => {
       email,
       password,
     });
-
     res.status(201).json({
       _id: user._id,
       name: user.name,
@@ -48,6 +47,23 @@ export const authUser = async (req, res) => {
       res.status(401).json({ message: "Invalid email or password" });
     }
 
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc    Get user profile
+export const getUserProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

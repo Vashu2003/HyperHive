@@ -2,16 +2,17 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Plus, Search, Folder, Menu, X } from "lucide-react";
 import { useGroups } from "../context/GroupContext";
+import CreateGroupModal from "../components/CreateGroupModal"; // Make sure this path is correct
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setShowModal] = useState(false); // Modal toggle state
   const location = useLocation();
   const { groups, loading, error } = useGroups();
 
   const isActive = (groupId) => location.pathname.includes(`/groups/${groupId}`);
 
-  // 🔍 Filter groups based on searchTerm
   const filteredGroups = groups.filter((group) =>
     group.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -45,13 +46,16 @@ const Sidebar = () => {
           <span>Projects</span>
         </div>
 
-        {/* Create Group */}
-        <button className="w-full flex items-center gap-2 text-sm text-primary text-mono hover:underline transition font-mono">
+        {/* Create Project Button */}
+        <button
+          onClick={() => setShowModal(true)}
+          className="w-full flex items-center gap-2 text-sm text-primary hover:underline transition font-mono"
+        >
           <Plus className="w-4 h-4" />
           Create Project
         </button>
 
-        {/* Search */}
+        {/* Search Input */}
         <div className="relative">
           <input
             type="text"
@@ -65,7 +69,7 @@ const Sidebar = () => {
 
         {/* Group List */}
         <ul className="space-y-2">
-          {loading && <li className="text-sm text-mono text-muted-foreground">Loading...</li>}
+          {loading && <li className="text-sm font-mono text-muted-foreground">Loading...</li>}
           {error && <li className="text-sm text-red-500">{error}</li>}
           {!loading && !error && filteredGroups.length === 0 && (
             <li className="text-sm text-muted-foreground">No matching projects.</li>
@@ -88,6 +92,9 @@ const Sidebar = () => {
             ))}
         </ul>
       </aside>
+
+      {/* Create Group Modal */}
+      <CreateGroupModal isOpen={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };

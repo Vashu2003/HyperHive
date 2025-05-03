@@ -11,7 +11,7 @@ function Dashboard() {
 
   // 🎯 Find the group that matches the URL param
   const groupToShow = groups?.find((g) => g._id === groupId) || groups?.[0];
-  console.log("groupToShow", groupToShow);
+
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen">

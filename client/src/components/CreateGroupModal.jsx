@@ -68,7 +68,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="font-mono px-4 py-2 text-sm rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border"
+              className="font-mono px-4 py-2 bg-muted-light dark:bg-muted-dark text-red-500 hover:text-red-600 rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
             >
               Cancel
             </button>

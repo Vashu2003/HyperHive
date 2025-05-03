@@ -1,5 +1,5 @@
-import { Moon, Sun, LogOut, UserCircle, X } from "lucide-react";
-import React, { useState } from "react";
+import { Moon, Sun, UserCircle, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
@@ -11,10 +11,11 @@ function Navbar() {
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setShowProfile(false);
+    }
+  }, [isAuthenticated]);
 
   const toggleProfile = () => setShowProfile((prev) => !prev);
   const closeProfile = () => setShowProfile(false);
@@ -29,23 +30,6 @@ function Navbar() {
 
         {/* Controls */}
         <div className="flex items-center space-x-4">
-          {isAuthenticated && (
-            <>
-              <button
-                onClick={handleLogout}
-                className="p-2 rounded-xl hover:bg-muted-light dark:hover:bg-muted-dark transition-all"
-              >
-                <LogOut className="w-6 h-6" />
-              </button>
-              <button
-                onClick={toggleProfile}
-                className="p-2 rounded-full hover:bg-muted-light dark:hover:bg-muted-dark transition"
-              >
-                <UserCircle className="w-6 h-6" />
-              </button>
-            </>
-          )}
-
           <button
             onClick={toggleTheme}
             className="ml-2 p-2 rounded-full hover:bg-muted-light dark:hover:bg-muted-dark transition relative"
@@ -58,11 +42,23 @@ function Navbar() {
               />
               <Moon
                 className={`absolute transition-transform duration-300 ${
-                  theme === "light" ? "-rotate-90 scale-0" : "rotate-0 scale-100"
+                  theme === "light"
+                    ? "-rotate-90 scale-0"
+                    : "rotate-0 scale-100"
                 }`}
               />
             </div>
           </button>
+          {isAuthenticated && (
+            <>
+              <button
+                onClick={toggleProfile}
+                className="p-2 rounded-full hover:bg-muted-light dark:hover:bg-muted-dark transition"
+              >
+                <UserCircle className="w-6 h-6" />
+              </button>
+            </>
+          )}
         </div>
       </nav>
 

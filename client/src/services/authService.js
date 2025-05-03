@@ -17,3 +17,12 @@ export const registerUser = async (name, email, password) => {
     throw error; // Ensure errors are propagated correctly
   }
 };
+
+export const getUserProfile = async () => {
+  try {
+    const res = await axios.get("/api/auth/profile");
+    return res.data; // should be { _id, name, email }
+  } catch (error) {
+    throw error;
+  }
+};

@@ -15,7 +15,6 @@ function Login() {
 
     try {
       const userData = await loginUser(email, password); // Call API
-      console.log("Logged in user:", userData);
 
       login(userData.token); // Use the login function from AuthContext
 

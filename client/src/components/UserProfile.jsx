@@ -1,30 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function UserProfile() {
-  const { user } = useAuth(); // assuming this returns null or undefined initially
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "" });
+  const navigate = useNavigate();
+  const { user, loading, logout } = useAuth(); // Get user details from context
 
   // Load user data into form state when available
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
-      setFormData({ name: user.name || "", email: user.email || "" });
     }
   }, [user]);
 
-  if (!user) {
-    return <div className="p-4 text-sm text-muted-foreground">Loading user...</div>;
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="p-4 text-sm text-muted-foreground">Loading user...</div>
+    );
   }
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSave = () => {
-    // send formData to server (not implemented here)
-    setIsEditing(false);
-  };
+  if (!user) {
+    return (
+      <div className="p-4 text-sm text-muted-foreground">
+        No user found. Please log in.
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 font-mono space-y-4">
@@ -39,30 +44,13 @@ function UserProfile() {
         </div>
       </div>
 
-      {/* Edit Form */}
-      {isEditing ? (
-        <div className="space-y-2">
-          <input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-2 rounded border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark"
-          />
-          <input
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 rounded border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark"
-          />
-          <button onClick={handleSave} className="px-4 py-2 rounded bg-primary text-white">
-            Save
-          </button>
-        </div>
-      ) : (
-        <button onClick={() => setIsEditing(true)} className="px-4 py-2 rounded bg-primary text-white">
-          Edit
-        </button>
-      )}
+      {/* Logout Button */}
+      <button
+        onClick={handleLogout}
+        className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+      >
+        Logout
+      </button>
     </div>
   );
 }

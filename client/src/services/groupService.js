@@ -23,7 +23,7 @@ export const addMemberToGroup = async (groupId, userId) => {
 export const removeMemberFromGroup = async (groupId, userId) => {
   const token = localStorage.getItem("token");
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.put(
       `/api/groups/${groupId}/remove-member`,
       { userId },
       { headers: { Authorization: `Bearer ${token}` } }

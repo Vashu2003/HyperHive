@@ -17,12 +17,13 @@ import {
   deleteGroup,
 } from "../../services/groupService";
 
-const GroupDetails = ({ group, memberData }) => {
+const GroupDetails = ({ group }) => {
   const { fetchGroups } = useGroups();
   const [isEditing, setIsEditing] = useState(false);
   const [groupData, setGroupData] = useState({ name: "", description: "" });
   const [nonMembers, setNonMembers] = useState([]);
 
+  // Set group data and fetch non-members when group changes
   useEffect(() => {
     if (group?._id) {
       setGroupData({
@@ -36,7 +37,7 @@ const GroupDetails = ({ group, memberData }) => {
   const fetchNonMembersHandler = async (groupId) => {
     try {
       const data = await fetchNonMembers(groupId);
-      setNonMembers(data);
+      setNonMembers(data); // Set non-members data (with name and email)
     } catch (error) {
       console.error("Error fetching non-members", error);
     }
@@ -46,7 +47,7 @@ const GroupDetails = ({ group, memberData }) => {
     try {
       await addMemberToGroup(group._id, userId);
       fetchGroups();
-      fetchNonMembersHandler(group._id);
+      fetchNonMembersHandler(group._id); // Refetch non-members
     } catch (error) {
       console.error("Error adding member:", error);
     }
@@ -56,7 +57,7 @@ const GroupDetails = ({ group, memberData }) => {
     try {
       await removeMemberFromGroup(group._id, userId);
       fetchGroups();
-      fetchNonMembersHandler(group._id);
+      fetchNonMembersHandler(group._id); // Refetch non-members
     } catch (error) {
       console.error("Error removing member:", error);
     }
@@ -106,15 +107,22 @@ const GroupDetails = ({ group, memberData }) => {
         group={group}
       />
       <GroupMetadata group={group} />
+      
+      {/* Pass the full member data to the MemberList component */}
       <MemberList
-        members={group.members}
-        memberData={memberData}
+        members={group.members} // Make sure group.members contains full user data (populated on the backend)
         isEditing={isEditing}
         handleRemoveMember={handleRemoveMember}
+        group={group}
       />
+      
       {isEditing && (
-        <NonMemberList nonMembers={nonMembers} handleAddMember={handleAddMember} />
+        <NonMemberList
+          nonMembers={nonMembers} // Non-members list is populated from the backend
+          handleAddMember={handleAddMember}
+        />
       )}
+      
       <GroupActions
         isEditing={isEditing}
         setIsEditing={setIsEditing}
