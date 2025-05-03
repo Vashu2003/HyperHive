@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (token) => {
     localStorage.setItem("token", token);
     setIsAuthenticated(true);
-    
     try {
       const profile = await getUserProfile();
       setUser(profile);
@@ -63,7 +62,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
