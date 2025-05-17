@@ -1,5 +1,5 @@
 import Task from "../models/Task.js";
-
+import mongoose from "mongoose";
 // @desc    Create a new Task inside a Group
 export const createTask = async (req, res) => {
   const { title, description, dueDate, groupId, assignedTo } = req.body;
@@ -28,7 +28,6 @@ export const createTask = async (req, res) => {
 };
 
 // @desc    Get all Tasks for a Group
-import mongoose from "mongoose";
 
 export const getTasks = async (req, res) => {
   const { groupId } = req.params;

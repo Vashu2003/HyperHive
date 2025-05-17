@@ -14,12 +14,12 @@ function Dashboard() {
 
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen">
+    <div className="flex flex-col md:flex-row min-h-screen scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
       {/* Left: Sidebar */}
       <Sidebar />
 
       {/* Middle: Main section (tabs like tasks, notes, etc.) */}
-      <MainSection />
+      <MainSection groupId={groupToShow?._id} />
 
       {/* Right: Group Details */}
       <GroupDetails group={groupToShow} memberData={groupToShow?.members || []} />

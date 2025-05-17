@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Tasks from "./Tasks";
+import Tasks from "./Tasks/Tasks";
 import Timeline from "./Timeline";
 import Notes from "./Notes";
 import Discussions from "./Discussions";
@@ -7,21 +7,21 @@ import Meeting from "./Meeting";
 
 const tabs = ["Tasks", "Timeline", "Notes", "Discussions", "Meetings"];
 
-const MainSection = () => {
+const MainSection = ({ groupId }) => {
   const [activeTab, setActiveTab] = useState("Tasks");
 
   const renderTabContent = () => {
     switch (activeTab) {
       case "Tasks":
-        return <Tasks />;
+        return <Tasks groupId={groupId} />;
       case "Timeline":
-        return <Timeline />;
+        return <Timeline groupId={groupId} />;
       case "Notes":
-        return <Notes />;
+        return <Notes groupId={groupId} />;
       case "Discussions":
-        return <Discussions />;
+        return <Discussions groupId={groupId} />;
       case "Meetings":
-        return <Meeting />;
+        return <Meeting groupId={groupId} />;
       default:
         return null;
     }
