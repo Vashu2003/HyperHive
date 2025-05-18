@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
-import TaskControls from "./TaskControls";
 import { useGroups } from "../../context/GroupContext";
 import {
   getTasks,
@@ -29,6 +28,8 @@ const Tasks = ({ groupId }) => {
 
     try {
       const data = await getTasks(groupId);
+      // Sort by dueDate ascending
+      data.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
       setTasks(data);
     } catch (err) {
       console.error(err);
@@ -84,8 +85,6 @@ const Tasks = ({ groupId }) => {
     setShowForm(false);
     setEditingTask(null);
   };
-
-  console.log(tasks);
 
   return (
     <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[580px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">

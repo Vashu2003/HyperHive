@@ -7,7 +7,7 @@ const statusColors = {
 };
 
 const TaskItem = ({ task }) => {
-  const status = task.isCompleted ? "completed" : "pending";
+  const status = task.status || "pending";
   const statusColor = statusColors[status] || "text-gray-500";
 
   return (
@@ -15,7 +15,7 @@ const TaskItem = ({ task }) => {
       <div className="flex flex-col">
         <h3 className="font-mono font-semibold text-text-light dark:text-text-dark">{task.title}</h3>
         <p className="text-sm text-text-light dark:text-text-dark">{task.description}</p>
-        <p className="text-xs font-mono text-text-light dark:text-text-dark mt-1">
+        <p className="text-xs font-mono font-semibold text-text-light dark:text-text-dark mt-1">
           Due: {new Date(task.dueDate).toLocaleDateString()}
         </p>
       </div>
@@ -23,7 +23,7 @@ const TaskItem = ({ task }) => {
         <span className={`font-mono text-sm font-semibold ${statusColor}`}>
           {status}
         </span>
-        <span className="font-mono text-sm text-text-light dark:text-text-dark">
+        <span className="font-mono text-sm font-semibold text-text-light dark:text-text-dark">
           Assigned to: {task.assignedTo?.name || "Unassigned"}
         </span>
       </div>
