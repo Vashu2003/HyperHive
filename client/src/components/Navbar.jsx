@@ -22,7 +22,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="top-0 left-0 right-0 flex justify-between items-center px-6 py-4 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark z-50">
+      <nav className="h-12 border-border-light dark:border-border-dark top-0 left-0 right-0 flex justify-between items-center px-6 py-4 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark z-50">
         {/* Logo */}
         <div className="font-mono pl-12 text-xl">
           {isAuthenticated && <Link to="/">HyperHive</Link>}

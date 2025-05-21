@@ -11,10 +11,14 @@ const TaskItem = ({ task }) => {
   const statusColor = statusColors[status] || "text-gray-500";
 
   return (
-    <div className="bg-background-light dark:bg-background-dark p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div className="flex flex-col">
-        <h3 className="font-mono font-semibold text-text-light dark:text-text-dark">{task.title}</h3>
-        <p className="text-sm text-text-light dark:text-text-dark">{task.description}</p>
+        <h3 className="font-mono font-semibold text-text-light dark:text-text-dark">
+          {task.title}
+        </h3>
+        <p className="text-sm text-text-light dark:text-text-dark">
+          {task.description}
+        </p>
         <p className="text-xs font-mono font-semibold text-text-light dark:text-text-dark mt-1">
           Due: {new Date(task.dueDate).toLocaleDateString()}
         </p>

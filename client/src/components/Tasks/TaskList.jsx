@@ -10,7 +10,7 @@ const TaskList = ({ tasks, loading, error, onEdit, onDelete }) => {
   return (
     <ul className="space-y-4 p-4">
       {tasks.map((task) => (
-        <li key={task._id} className="border border-border-light dark:border-border-dark rounded-xl p-4 bg-background-light dark:bg-background-dark">
+        <li key={task._id} className="rounded-xl p-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border border-border-dark dark:border-border-light hover:bg-background-light dark:hover:bg-background-dark transition-all duration-300 ease-in-out hover:shadow-md">
           <TaskItem task={task} />
           <div className="flex justify-end mt-2 gap-2">
             <TaskControls

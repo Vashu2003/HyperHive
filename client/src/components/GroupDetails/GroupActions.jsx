@@ -5,22 +5,22 @@ const GroupActions = ({ isEditing, setIsEditing, handleUpdateGroup, handleDelete
     {isEditing ? (
       <button
         onClick={handleUpdateGroup}
-        className="px-4 py-2 dark:bg-background-dark dark:text-text-dark bg-muted-light text-text-light rounded-lg border hover:border-muted-dark dark:hover:border-muted-light transition-all"
+        className="font-mono font-semibold px-4 py-2 dark:bg-background-light dark:text-text-light bg-muted-dark text-text-dark rounded-xl border hover:border-muted-dark dark:hover:border-muted-light transition-all"
       >
         Save
       </button>
     ) : (
       <button
         onClick={() => setIsEditing(true)}
-        className="px-4 py-2 dark:bg-background-dark dark:text-text-dark bg-muted-light text-text-light rounded-lg border hover:border-muted-dark dark:hover:border-muted-light transition-all"
+        className="font-mono font-semibold px-4 py-2 dark:bg-background-light dark:text-text-light bg-muted-dark text-text-dark rounded-xl border hover:border-muted-dark dark:hover:border-muted-light transition-all"
       >
         Edit
       </button>
     )}
     <button
       onClick={handleDeleteGroup}
-      className="px-4 py-2 dark:bg-background-dark dark:text-text-red-700 bg-muted-light text-red-500 rounded-lg border hover:border-muted-dark dark:hover:border-muted-light transition-all"
-    >
+      className="font-mono font-semibold px-4 py-2 dark:bg-background-light dark:text-text-red-400 bg-muted-dark text-red-500 rounded-xl border hover:border-muted-dark dark:hover:border-muted-light transition-all"
+      >
       Delete
     </button>
   </div>

@@ -1,6 +1,10 @@
 import Meeting from "../models/Meeting.js";
 import Group from "../models/Group.js";
 
+import { customAlphabet } from "nanoid"; // add this import for generating unique IDs
+
+const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10); // 10 char room id
+
 export const createMeeting = async (req, res) => {
   const { groupId, title, scheduledAt } = req.body;
 
@@ -15,11 +19,15 @@ export const createMeeting = async (req, res) => {
         .json({ message: "You must be a group member to create a meeting" });
     }
 
+    // Generate a unique jitsiRoomId here
+    const jitsiRoomId = nanoid();
+
     const newMeeting = new Meeting({
       group: groupId,
       title,
       scheduledAt,
       host: req.user._id,
+      jitsiRoomId,
     });
 
     await newMeeting.save();
@@ -34,20 +42,54 @@ export const createMeeting = async (req, res) => {
 export const getMeetingsForGroup = async (req, res) => {
   const { groupId } = req.params;
   try {
-    const meetings = await Meeting.find({
-      group: groupId,
-      active: true,
-    }).populate("host participants", "name email");
-    res.json(meetings);
+    const meetings = await Meeting.find({ group: groupId }).populate(
+      "host participants",
+      "name email"
+    );
+
+    const now = new Date();
+
+    const updatedMeetings = meetings.map((meeting) => {
+      let status = "scheduled";
+
+      if (!meeting.active) {
+        status = "ended";
+      } else if (new Date(meeting.scheduledAt) <= now) {
+        status = "live";
+      }
+
+      return {
+        ...meeting.toObject(),
+        status,
+      };
+    });
+
+    res.json(updatedMeetings);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to fetch meetings" });
   }
 };
 
+// Get single meeting by ID
+export const getMeetingById = async (req, res) => {
+  const { meetingId } = req.params;  // <-- get the ID from params
+
+  try {
+    const meeting = await Meeting.findById(meetingId);  // <-- use meetingId here
+    if (!meeting) {
+      return res.status(404).json({ message: "Meeting not found" });
+    }
+    res.json(meeting);
+  } catch (error) {
+    console.error("Error fetching meeting:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const endMeeting = async (req, res) => {
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     meeting.active = false;
     await meeting.save();
@@ -61,7 +103,7 @@ export const endMeeting = async (req, res) => {
 export const removeParticipant = async (req, res) => {
   const { userId } = req.params;
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     meeting.participants = meeting.participants.filter(
       (id) => id.toString() !== userId
@@ -97,7 +139,7 @@ export const requestToJoin = async (req, res) => {
 export const approveJoinRequest = async (req, res) => {
   const { userId } = req.params;
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     meeting.waitingList = meeting.waitingList.filter(
       (id) => id.toString() !== userId
@@ -114,7 +156,7 @@ export const approveJoinRequest = async (req, res) => {
 export const rejectJoinRequest = async (req, res) => {
   const { userId } = req.params;
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     meeting.waitingList = meeting.waitingList.filter(
       (id) => id.toString() !== userId
@@ -131,7 +173,7 @@ export const muteParticipant = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     const alreadyMuted = meeting.mutedParticipants.includes(userId);
     if (alreadyMuted) {
@@ -151,7 +193,7 @@ export const unmuteParticipant = async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const meeting = req.meeting;  // from verifyHost middleware
+    const meeting = req.meeting; // from verifyHost middleware
 
     meeting.mutedParticipants = meeting.mutedParticipants.filter(
       (id) => id.toString() !== userId

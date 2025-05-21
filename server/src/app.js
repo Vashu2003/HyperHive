@@ -5,6 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import groupRoutes from "./routes/groupRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
+import meetingRoutes from "./routes/meetingRoutes.js";
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.get("/", (req, res) => {
 app.use("/api/groups", groupRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/notes", noteRoutes);
+app.use("/api/meetings", meetingRoutes);
 
 export default app;
