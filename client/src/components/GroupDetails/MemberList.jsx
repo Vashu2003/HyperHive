@@ -2,8 +2,8 @@ import React from "react";
 
 const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
   return (
-    <div className="font-mono">
-      <h3 className="text-m font-mono text-text-light dark:text-text-dark">
+    <div className="font-mono bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark rounded-xl p-4">
+      <h3 className="text-lg font-semibold font-mono text-text-light dark:text-text-dark ">
         Members
       </h3>
       <ul className="list-disc pl-5 text-sm text-text-light dark:text-text-dark space-y-1">
