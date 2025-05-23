@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Trash2 } from "lucide-react";
 const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
   return (
     <div className="font-mono bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark rounded-xl p-4">
@@ -21,7 +21,7 @@ const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
                   onClick={() => handleRemoveMember(member._id)}
                   className="text-red-500 text-xs hover:underline"
                 >
-                  Remove
+                  <Trash2 className="w-4 h-4" />
                 </button>
               )}
             </li>

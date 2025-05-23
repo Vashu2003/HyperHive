@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Plus } from "lucide-react";
 const NonMemberList = ({ nonMembers, handleAddMember }) => (
   <div className="font-mono">
     <h3 className="text-m font-mono text-text-light dark:text-text-dark">
@@ -13,7 +13,7 @@ const NonMemberList = ({ nonMembers, handleAddMember }) => (
             onClick={() => handleAddMember(user._id)}
             className="text-blue-500 text-xs hover:underline"
           >
-            Add
+            <Plus className="w-4 h-4" />
           </button>
         </li>
       ))}

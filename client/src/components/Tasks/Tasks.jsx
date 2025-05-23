@@ -8,7 +8,7 @@ import {
   updateTask,
   deleteTask as deleteTaskService,
 } from "../../services/taskService";
-
+import { Plus } from "lucide-react";
 const Tasks = ({ groupId }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -95,9 +95,9 @@ const Tasks = ({ groupId }) => {
             setShowForm(true);
             setEditingTask(null);
           }}
-          className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+          className="p-2 border bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
         >
-          + New Task
+          <Plus className="w-5 h-5" color="blue" />
         </button>
       </div>
 

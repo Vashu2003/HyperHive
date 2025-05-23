@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import createSocketConnection from "../../socket";
 import { useAuth } from "../../context/AuthContext";
 import axiosInstance from "../../api/axios";
+import { Send } from "lucide-react";
 
 const Discussions = ({ groupId }) => {
   const { user } = useAuth();
@@ -184,10 +185,10 @@ const Discussions = ({ groupId }) => {
           }}
         />
         <button
-          className="bg-muted-light dark:bg-muted-dark hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 text-text-light dark:text-text-dark px-6 py-2 rounded-xl transition"
+          className="bg-muted-light dark:bg-muted-dark hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 text-text-light dark:text-text-dark px-4 py-2 rounded-xl transition"
           onClick={sendMessage}
         >
-          Send
+          <Send className="w-5 h-5" />
         </button>
       </div>
     </div>

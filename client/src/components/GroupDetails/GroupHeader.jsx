@@ -2,7 +2,7 @@ import React from "react";
 
 const GroupHeader = ({ isEditing, groupData, setGroupData, group, createdDate }) => (
   <div className="font-mono">
-    <h2 className="text-3xl font-bold text-text-light dark:text-text-dark">
+    <h2 className="text-3xl font-bold mb-2 text-text-light dark:text-text-dark">
       {isEditing ? (
         <input
           type="text"

@@ -15,13 +15,27 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    imageUrl: {
-      type: String, // Image from Cloudinary
+    fileUrl: {
+      type: String, // Cloudinary URL for uploaded file
+    },
+    fileType: {
+      type: String, // MIME type (e.g., application/pdf, image/png)
+    },
+    fileName: {
+      type: String, // Original file name
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
+    },
+    cloudinaryPublicId: {
+      type: String, // Needed for file deletion
+    },
+    cloudinaryResourceType: {
+      type: String,
+      enum: ['image', 'raw'],
+      default: 'raw',
     },
   },
   { timestamps: true }

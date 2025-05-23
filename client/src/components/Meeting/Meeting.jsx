@@ -4,7 +4,7 @@ import MeetingList from "./MeetingList";
 import { getMeetingsForGroup, endMeeting } from "../../services/meetingService";
 import { useAuth } from "../../context/AuthContext";
 import JitsiMeeting from "./JitsiMeeting";
-
+import { Plus, X } from "lucide-react";
 const Meeting = ({ groupId }) => {
   const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
@@ -60,9 +60,17 @@ const Meeting = ({ groupId }) => {
             <h2 className="text-lg font-semibold">Meetings</h2>
             <button
               onClick={toggleForm}
-              className="bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-muted hover:dark:bg-border-dark"
+              className="bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark p-2 rounded-xl transition-colors duration-200 hover:bg-muted hover:dark:bg-border-dark"
               >
-              {showForm ? "Cancel" : "Create Meeting"}
+              {showForm ? (
+                <>
+                <X className="w-5 h-5" color="red" />
+                </>
+              ) : (
+                <>
+                <Plus className="w-5 h-5" color="blue" />
+                </>
+              )}
             </button>
           </div>
   

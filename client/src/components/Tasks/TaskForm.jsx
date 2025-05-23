@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Check, Plus, X } from "lucide-react";
 const TaskForm = ({ onSubmit, onCancel, initialData = {}, users = [] }) => {
   const [title, setTitle] = useState(initialData.title || "");
   const [description, setDescription] = useState(initialData.description || "");
@@ -162,17 +162,30 @@ const TaskForm = ({ onSubmit, onCancel, initialData = {}, users = [] }) => {
 
       <button
         type="submit"
-        className="px-4 py-2 bg-muted-dark dark:bg-muted-light text-text-dark dark:text-text-light font-bold rounded-lg hover:bg-muted-dark/70 dark:hover:bg-muted-light/70 transition"
+        className="p-2 w-fit bg-muted-light dark:bg-muted-dark text-text-dark dark:text-text-light font-bold rounded-lg transition"
       >
-        {initialData._id ? "Update Task" : "Create Task"}
+        {initialData._id ? (
+          <Check
+            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            color="green"
+          />
+        ) : (
+          <Plus
+            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            color="blue"
+          />
+        )}
       </button>
       {onCancel && (
-      <button
-        onClick={onCancel}
-        className="px-4 py-2 w-28 bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
-      >
-        Cancel
-      </button>
+        <button
+          onClick={onCancel}
+          className="p-2 w-fit bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+        >
+          <X
+            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            color="red"
+          />
+        </button>
       )}
     </form>
   );
