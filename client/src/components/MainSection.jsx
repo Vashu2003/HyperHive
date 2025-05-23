@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Tasks from "./Tasks/Tasks";
 import Timeline from "./Timeline";
 import Notes from "./Notes";
-import Discussions from "./Discussions";
+import Discussions from "./Discussions/Discussions";
 import Meeting from "./Meeting/Meeting";
 
 const tabs = ["Tasks", "Timeline", "Notes", "Discussions", "Meetings"];

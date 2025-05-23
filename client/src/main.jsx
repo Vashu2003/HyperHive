@@ -5,13 +5,13 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
-import { GroupProvider } from "./context/GroupContext"; // ✅ Import this
+import { GroupProvider } from "./context/GroupContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <GroupProvider> {/* ✅ Wrap it here */}
+        <GroupProvider>
           <ThemeProvider>
             <App />
           </ThemeProvider>
