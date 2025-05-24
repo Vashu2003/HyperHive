@@ -28,7 +28,7 @@ const Sidebar = () => {
       </button>
 
       <aside
-        className={`lg:w-64 w-80 fixed lg:relative top-0 left-0 h-full border-r border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-4 space-y-4 transform ${
+        className={`lg:w-64 w-80 fixed lg:relative top-0 left-0 h-full bg-background-light dark:bg-background-dark p-4 space-y-4 transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 transition-transform duration-300 lg:block z-40`}
       >

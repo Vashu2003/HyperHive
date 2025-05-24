@@ -8,7 +8,7 @@ import {
   updateTask,
   deleteTask as deleteTaskService,
 } from "../../services/taskService";
-import { Plus } from "lucide-react";
+import { Plus, ClipboardList } from "lucide-react";
 const Tasks = ({ groupId }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -87,9 +87,12 @@ const Tasks = ({ groupId }) => {
   };
 
   return (
-    <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[580px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+    <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Tasks</h2>
+        <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
+          <ClipboardList className="w-6 h-6 text-blue-500" />
+          Tasks
+        </h2>
         <button
           onClick={() => {
             setShowForm(true);

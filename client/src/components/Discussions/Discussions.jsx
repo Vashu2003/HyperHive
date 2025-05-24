@@ -119,7 +119,7 @@ const Discussions = ({ groupId }) => {
   }, [messages]);
 
   return (
-    <div className="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-mono flex flex-col h-fit rounded-xl">
+    <div className="max-h-[540px] bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-mono flex flex-col h-fit rounded-xl">
       <div className="relative p-4 font-mono max-h-[490px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark space-y-4">
         {messages.length === 0 ? (
           <p className="text-muted-light dark:text-muted-dark italic">

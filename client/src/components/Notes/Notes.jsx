@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import NotesUploadModal from "./NotesUploadModal";
 import NoteList from "./NoteList";
-import { Upload } from "lucide-react"
+import { Upload, NotebookPen } from "lucide-react";
 const Notes = ({ groupId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,12 +23,15 @@ const Notes = ({ groupId }) => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 max-h-[540px]">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold text-text-light dark:text-text-dark">Notes</h1>
+      <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
+          <NotebookPen className="w-6 h-6 text-blue-500" />
+            Notes
+        </h2>
         <button
           onClick={handleOpenModal}
-          className="p-2 bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-full transition"
+          className="p-2 border bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
         >
           <Upload className="w-5 h-5" color="currentColor" />
         </button>

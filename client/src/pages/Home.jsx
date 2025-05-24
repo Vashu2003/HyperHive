@@ -14,15 +14,23 @@ function Dashboard() {
 
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+    <div className="overflow-x-hidden  flex flex-col md:flex-row min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+      
       {/* Left: Sidebar */}
-      <Sidebar />
-
+      <aside className="md:w-64 bg-background-light dark:bg-background-dark">
+        <Sidebar />
+      </aside>
+  
       {/* Middle: Main section (tabs like tasks, notes, etc.) */}
-      <MainSection groupId={groupToShow?._id} />
-
+      <main className="flex-1 px-4 py-6 md:px-6 md:py-8">
+        <MainSection groupId={groupToShow?._id} />
+      </main>
+  
       {/* Right: Group Details */}
-      <GroupDetails group={groupToShow} memberData={groupToShow?.members || []} />
+      <aside className="w-full md:w-80 md:px-5 mr-6 md:py-8 bg-background-light dark:bg-background-dark">
+        <GroupDetails group={groupToShow} memberData={groupToShow?.members || []} />
+      </aside>
+  
     </div>
   );
 }

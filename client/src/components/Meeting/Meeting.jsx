@@ -4,7 +4,7 @@ import MeetingList from "./MeetingList";
 import { getMeetingsForGroup, endMeeting } from "../../services/meetingService";
 import { useAuth } from "../../context/AuthContext";
 import JitsiMeeting from "./JitsiMeeting";
-import { Plus, X } from "lucide-react";
+import { Plus, X, AppWindow } from "lucide-react";
 const Meeting = ({ groupId }) => {
   const { user } = useAuth();
   const [showForm, setShowForm] = useState(false);
@@ -53,14 +53,17 @@ const Meeting = ({ groupId }) => {
   }, [groupId]);
 
   return (
-    <div className="bg-background-light dark:bg-background-dark p-6 text-text-light dark:text-text-dark rounded-xl  font-mono">
+    <div className="max-h-[540px] bg-background-light dark:bg-background-dark p-4 text-text-light dark:text-text-dark rounded-xl  font-mono">
       {!activeMeeting ? (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Meetings</h2>
+          <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
+          <AppWindow className="w-6 h-6" color="blue" />
+            Meetings
+        </h2>
             <button
               onClick={toggleForm}
-              className="bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark p-2 rounded-xl transition-colors duration-200 hover:bg-muted hover:dark:bg-border-dark"
+              className="p-2 border bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
               >
               {showForm ? (
                 <>
@@ -68,7 +71,7 @@ const Meeting = ({ groupId }) => {
                 </>
               ) : (
                 <>
-                <Plus className="w-5 h-5" color="blue" />
+                <Plus className="w-5 h-5" color="currentColor" />
                 </>
               )}
             </button>

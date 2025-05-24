@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { LogOut } from "lucide-react"
 function UserProfile() {
   const navigate = useNavigate();
   const { user, loading, logout } = useAuth(); // Get user details from context
@@ -49,7 +49,7 @@ function UserProfile() {
         onClick={handleLogout}
         className="px-4 py-2 bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
       >
-        Logout
+        <LogOut className="w-5 h-5" color="currentColor" />
       </button>
     </div>
   );

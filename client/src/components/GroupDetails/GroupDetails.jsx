@@ -92,7 +92,7 @@ const GroupDetails = ({ group }) => {
   } catch {}
 
   return (
-    <aside className="w-full md:w-80 border-r border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark p-4 font-mono space-y-4">
+    <aside className="w-full md:w-80 bg-background-light dark:bg-background-dark p-4 font-mono space-y-4">
       <GroupHeader
         isEditing={isEditing}
         groupData={groupData}
