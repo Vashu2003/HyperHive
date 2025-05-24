@@ -7,6 +7,7 @@ import taskRoutes from "./routes/taskRoutes.js";
 import noteRoutes from "./routes/noteRoutes.js";
 import meetingRoutes from "./routes/meetingRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
+import timelineRoutes from "./routes/timelineRoutes.js";
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/timeline", timelineRoutes);
 
 export default app;
