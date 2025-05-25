@@ -17,6 +17,11 @@ const allowedOrigins = [
 // Middlewares
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log("Incoming Origin:", req.headers.origin);
+  next();
+});
+
 app.use(
   cors({
     origin: function (origin, callback) {
