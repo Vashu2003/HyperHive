@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost",
+    origin: "https://hyperhive-frontend.onrender.com",
     credentials: true, // Allow credentials (cookies, authorization headers)
   })
 );
