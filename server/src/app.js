@@ -10,15 +10,26 @@ import chatRoutes from "./routes/chatRoutes.js";
 import timelineRoutes from "./routes/timelineRoutes.js";
 
 const app = express();
-
+const allowedOrigins = [
+  "https://hyperhive-frontend.onrender.com",
+  "http://localhost:5173",
+];
 // Middlewares
 app.use(express.json());
+
 app.use(
   cors({
-    origin: "https://hyperhive-frontend.onrender.com",
-    credentials: true, // Allow credentials (cookies, authorization headers)
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
+
 app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes);
