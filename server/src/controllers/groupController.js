@@ -115,6 +115,29 @@ export const getNonMembers = async (req, res) => {
   }
 };
 
+// Get users in a specific group
+export const getGroupMembers = async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const group = await Group.findById(groupId);
+
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    // Get users whose IDs are in the group's members array
+    const users = await User.find({
+      _id: { $in: group.members },
+    }).select("name email");
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 // Add a member to a group
 export const addMemberToGroup = async (req, res) => {
   const { groupId } = req.params;

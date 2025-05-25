@@ -38,6 +38,8 @@ const TaskForm = ({ onSubmit, onCancel, initialData = {}, users = [] }) => {
     }
   };
 
+  console.log(users);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -162,16 +164,16 @@ const TaskForm = ({ onSubmit, onCancel, initialData = {}, users = [] }) => {
 
       <button
         type="submit"
-        className="p-2 w-fit bg-muted-light dark:bg-muted-dark text-text-dark dark:text-text-light font-bold rounded-lg transition"
+        className="p-2 mr-4 w-fit border bg-muted-light dark:bg-muted-dark text-text-dark dark:text-text-light font-bold rounded-lg hover:bg-background-light dark:hover:bg-background-dark transition"
       >
         {initialData._id ? (
           <Check
-            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            className="w-5 h-5"
             color="green"
           />
         ) : (
           <Plus
-            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            className="w-5 h-5"
             color="blue"
           />
         )}
@@ -179,10 +181,10 @@ const TaskForm = ({ onSubmit, onCancel, initialData = {}, users = [] }) => {
       {onCancel && (
         <button
           onClick={onCancel}
-          className="p-2 w-fit bg-muted-light dark:bg-muted-dark text-red-500 dark:text-red-400 hover:text-red-600 rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
-        >
+          className="p-2 w-fit border bg-muted-light dark:bg-muted-dark text-text-dark dark:text-text-light font-bold rounded-lg hover:bg-background-light dark:hover:bg-background-dark transition"
+          >
           <X
-            className="w-5 h-5 hover:bg-muted-light dark:hover:bg-muted-dark"
+            className="w-5 h-5"
             color="red"
           />
         </button>

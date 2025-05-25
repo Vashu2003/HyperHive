@@ -5,7 +5,7 @@ import Notes from "./Notes/Notes";
 import Discussions from "./Discussions/Discussions";
 import Meeting from "./Meeting/Meeting";
 
-const tabs = ["Tasks", "Timeline", "Notes", "Discussions", "Meetings"];
+const tabs = ["Tasks", "Timeline", "Attachments", "Discussions", "Meetings"];
 
 const MainSection = ({ groupId }) => {
   const [activeTab, setActiveTab] = useState("Tasks");
@@ -16,7 +16,7 @@ const MainSection = ({ groupId }) => {
         return <Tasks groupId={groupId} />;
       case "Timeline":
         return <Timeline groupId={groupId} />;
-      case "Notes":
+      case "Attachments":
         return <Notes groupId={groupId} />;
       case "Discussions":
         return <Discussions groupId={groupId} />;

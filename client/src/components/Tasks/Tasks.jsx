@@ -17,7 +17,7 @@ const Tasks = ({ groupId }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  const { nonMembers, fetchNonMembers } = useGroups();
+  const { groupMembers, fetchGroupMembers } = useGroups();
   const [users, setUsers] = useState([]);
 
   // Fetch tasks and users
@@ -36,18 +36,18 @@ const Tasks = ({ groupId }) => {
       setError("Failed to load tasks.");
     } finally {
       setLoading(false);
-    }
+    } 
   };
 
   useEffect(() => {
     if (!groupId) return;
     loadTasks();
-    fetchNonMembers(groupId);
+    fetchGroupMembers(groupId);
   }, [groupId]);
 
   useEffect(() => {
-    setUsers(nonMembers);
-  }, [nonMembers]);
+    setUsers(groupMembers);
+  }, [groupMembers]);
 
   const handleSubmit = async (taskData) => {
     try {
@@ -85,6 +85,8 @@ const Tasks = ({ groupId }) => {
     setShowForm(false);
     setEditingTask(null);
   };
+
+  console.log(users);
 
   return (
     <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">

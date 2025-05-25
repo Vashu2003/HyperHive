@@ -12,6 +12,7 @@ export const GroupProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [nonMembers, setNonMembers] = useState([]); // To store users not in the group
+  const [groupMembers, setGroupMembers] = useState([]);
 
   // Fetch groups - now a reusable function
   const fetchGroups = async () => {
@@ -35,6 +36,26 @@ export const GroupProvider = ({ children }) => {
     }
   };
 
+  const fetchGroupMembers = async (groupId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("No token found. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await axiosInstance.get(
+        `/api/groups/${groupId}/members`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setGroupMembers(response.data);
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching group members.");
+    }
+  };
   // Fetch non-members of a group
   const fetchNonMembers = async (groupId) => {
     const token = localStorage.getItem("token");
@@ -44,9 +65,12 @@ export const GroupProvider = ({ children }) => {
     }
 
     try {
-      const response = await axiosInstance.get(`/api/groups/${groupId}/non-members`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosInstance.get(
+        `/api/groups/${groupId}/non-members`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setNonMembers(response.data); // Set the non-members
     } catch (err) {
       console.error(err);
@@ -108,6 +132,8 @@ export const GroupProvider = ({ children }) => {
         fetchGroups,
         nonMembers,
         fetchNonMembers,
+        groupMembers,
+        fetchGroupMembers,
         addMemberToGroup,
       }}
     >

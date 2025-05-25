@@ -27,7 +27,7 @@ const Notes = ({ groupId }) => {
       <div className="flex justify-between items-center mb-4">
       <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
           <NotebookPen className="w-6 h-6 text-blue-500" />
-            Notes
+            Attachments
         </h2>
         <button
           onClick={handleOpenModal}

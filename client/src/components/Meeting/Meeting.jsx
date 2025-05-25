@@ -53,7 +53,7 @@ const Meeting = ({ groupId }) => {
   }, [groupId]);
 
   return (
-    <div className="max-h-[540px] bg-background-light dark:bg-background-dark p-4 text-text-light dark:text-text-dark rounded-xl  font-mono">
+    <div className="h-fit bg-background-light dark:bg-background-dark p-4 text-text-light dark:text-text-dark rounded-xl  font-mono">
       {!activeMeeting ? (
         <>
           <div className="flex justify-between items-center mb-4">

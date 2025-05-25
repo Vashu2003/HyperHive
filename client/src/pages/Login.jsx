@@ -39,11 +39,11 @@ function Login() {
           </div>
   
           <div className="relative z-10 max-w-lg font-mono">
-            <h1 className="text-5xl font-bold font-mono mb-6">HyperHive</h1>
-            <p className="text-lg mb-4">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-[#f5d37c] to-[#d4af37] bg-clip-text text-transparent tracking-wide mb-4">
+        HYPERHIVE
+      </h1>
+            <p className="text-lg">
               Collaborate, organize, and stay productive with your team.
-            </p>
-            <p className="text-lg mb-6">
               Streamline your workflow and boost team productivity.
             </p>
           </div>

@@ -47,7 +47,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
-              placeholder="Enter group name"
+              placeholder="Enter project name"
               required
             />
           </div>
@@ -60,7 +60,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="font-mono w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
-              placeholder="Enter group description"
+              placeholder="Enter project description"
             />
           </div>
 

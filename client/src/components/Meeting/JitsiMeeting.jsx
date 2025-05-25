@@ -120,18 +120,18 @@ const JitsiMeeting = ({
   }, []);
 
   useEffect(() => {
-    console.log("Ref check after DOM render:", jitsiContainerRef.current);
+    // console.log("Ref check after DOM render:", jitsiContainerRef.current);
 
     if (!jitsiReady || !meeting) return;
 
     const timeout = setTimeout(() => {
       const container = jitsiContainerRef.current;
 
-      console.log("Deferred container check:", {
-        jitsiReady,
-        container,
-        meeting,
-      });
+      // console.log("Deferred container check:", {
+      //   jitsiReady,
+      //   container,
+      //   meeting,
+      // });
 
       if (!container) {
         setError("Jitsi container not found in DOM.");
@@ -276,7 +276,7 @@ const JitsiMeeting = ({
   }
 
   return (
-    <div className="md:flex-row gap-4 p-4 bg-muted-light dark:bg-muted-dark rounded-xl text-text-light dark:text-text-dark">
+    <div className="md:flex-row gap-4 p-4 bg-muted-light dark:bg-muted-dark rounded-xl text-text-light dark:text-text-dark h-full">
       <div>
         <div
           ref={jitsiContainerRef}
@@ -287,7 +287,7 @@ const JitsiMeeting = ({
             onClick={handleEndMeeting}
             className="mt-2 ml-2 bg-border-light dark:bg-border-dark text-text-light dark:text-text-dark px-4 py-2 rounded-xl hover:opacity-90 font-semibold transition duration-200 hover:bg-red-600 dark:hover:bg-red-400 hover:text-text-dark dark:hover:text-text-light"
           >
-            End Meeting
+            Delete Meeting
           </button>
         )}
       </div>
