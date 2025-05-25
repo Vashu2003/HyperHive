@@ -1,35 +1,23 @@
-/** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./src/**/*.{html,js,jsx,ts,tsx}",
-  ],
-  darkMode: 'class', // Enables dark mode by adding 'class' to html
+  content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        background: {
-          light: '#ffffff', // White background
-          dark: '#000000',   // Black background
-        },
-        text: {
-          light: '#111111',  // Almost black text (better for readability)
-          dark: '#eeeeee',   // Light text for dark backgrounds
-        },
-        muted: {
-          light: '#f4f4f5',  // Light muted background
-          dark: '#1f1f1f',   // Dark muted background
-        },
-        border: {
-          light: '#e4e4e7',  // Light gray border
-          dark: '#27272a',   // Dark border
-        },
+        'background-light': '#ffffff',
+        'background-dark': '#000000',
+        'text-light': '#111111',
+        'text-dark': '#eeeeee',
+        'muted-light': '#f4f4f5',
+        'muted-dark': '#1f1f1f',
+        'border-light': '#e4e4e7',
+        'border-dark': '#27272a',
       },
       borderRadius: {
-        'xl': '1rem',   // For softer rounded edges
+        xl: '1rem',
         '2xl': '1.5rem',
       },
     },
   },
   plugins: [require('tailwind-scrollbar')],
 };
-

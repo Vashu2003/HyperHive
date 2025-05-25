@@ -57,8 +57,8 @@ function Signup() {
         </div>
 
         {/* Right Side: Signup Form */}
-        <div className="flex-[1] bg-white p-10 flex flex-col justify-center dark:bg-muted-dark">
-          <h2 className="text-3xl font-bold mb-2 text-center text-gray-800 dark:text-white">
+        <div className="flex-[1] bg-white p-10 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-2 text-center text-black">
             Sign Up
           </h2>
           <p className="text-sm text-center text-gray-500 mb-6">
@@ -68,7 +68,7 @@ function Signup() {
           <form onSubmit={handleSignup}>
             {/* Name */}
             <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium">
+              <label htmlFor="name" className="block text-sm text-black font-medium">
                 Name
               </label>
               <input
@@ -76,14 +76,14 @@ function Signup() {
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 dark:bg-muted-dark dark:border-border-light dark:text-white focus:ring-2 focus:ring-blue-500 font-mono"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500 font-mono"
                 required
               />
             </div>
 
             {/* Email */}
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium">
+              <label htmlFor="email" className="block text-sm text-black font-medium">
                 Email
               </label>
               <input
@@ -91,14 +91,14 @@ function Signup() {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 dark:bg-muted-dark dark:border-border-light dark:text-white focus:ring-2 focus:ring-blue-500 font-mono"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500 font-mono"
                 required
               />
             </div>
 
             {/* Password */}
             <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium">
+              <label htmlFor="password" className="block text-sm text-black font-medium">
                 Password
               </label>
               <input
@@ -106,7 +106,7 @@ function Signup() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 dark:bg-muted-dark dark:border-border-light dark:text-white focus:ring-2 focus:ring-blue-500 font-mono"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500 font-mono"
                 required
               />
             </div>
@@ -115,7 +115,7 @@ function Signup() {
             <div className="mb-6">
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium"
+                className="block text-sm text-black font-medium"
               >
                 Confirm Password
               </label>
@@ -124,7 +124,7 @@ function Signup() {
                 id="confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 dark:bg-muted-dark dark:border-border-light dark:text-white focus:ring-2 focus:ring-blue-500 font-mono"
+                className="w-full p-3 mt-2 border border-gray-300 rounded-md bg-gray-100 focus:ring-2 focus:ring-blue-500 font-mono"
                 required
               />
             </div>
@@ -140,7 +140,7 @@ function Signup() {
 
           {/* Link to Login */}
           <div className="mt-4 text-center">
-            <p className="text-sm font-mono">
+            <p className="text-sm text-black font-mono">
               Already have an account?{" "}
               <Link to="/login" className="text-blue-600 hover:underline">
                 Login

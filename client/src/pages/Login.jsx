@@ -51,12 +51,12 @@ function Login() {
   
         {/* ⚪ Right Side - Login Form */}
         <div className="flex-[1] bg-white p-10 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold mb-2 text-center text-gray-800 dark:text-white">Login</h2>
+          <h2 className="text-3xl font-bold mb-2 text-center text-black">Login</h2>
           <p className="text-sm text-center text-gray-500 mb-6">Welcome Back</p>
   
           <form onSubmit={handleLogin}>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium">Email</label>
+              <label htmlFor="email" className="block text-sm text-black font-medium">Email</label>
               <input
                 type="email"
                 id="email"
@@ -68,7 +68,7 @@ function Login() {
             </div>
   
             <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium">Password</label>
+              <label htmlFor="password" className="block text-sm text-black font-medium">Password</label>
               <input
                 type="password"
                 id="password"
@@ -88,7 +88,7 @@ function Login() {
           </form>
   
           <div className="mt-4 text-center">
-            <p className="text-sm font-mono">
+            <p className="text-sm font-mono text-black">
               Don't have an account?{" "}
               <Link to="/signup" className="text-blue-600 hover:underline">
                 Sign up

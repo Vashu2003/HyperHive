@@ -74,7 +74,7 @@ io.on("connection", (socket) => {
 // 5. Connect to MongoDB then start the server
 connectDB()
   .then(() => {
-    server.listen(PORT, () => {
+    server.listen(PORT, "0.0.0.0", () => {  // <-- bind to 0.0.0.0 here
       console.log(`🚀 Server running on port ${PORT}`);
     });
   })
