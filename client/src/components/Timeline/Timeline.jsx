@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../api/axios";
+import axiosInstance from "../../api/axios";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -30,8 +30,8 @@ export default function Timeline({ groupId }) {
         setError(null);
 
         const [tasksRes, meetingsRes] = await Promise.all([
-          axios.get(`/api/tasks/${groupId}`),
-          axios.get(`/api/meetings/group/${groupId}`),
+          axiosInstance.get(`/api/tasks/${groupId}`),
+          axiosInstance.get(`/api/meetings/group/${groupId}`),
         ]);
 
         const taskEvents = tasksRes.data

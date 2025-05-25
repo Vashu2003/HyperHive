@@ -86,8 +86,6 @@ const Tasks = ({ groupId }) => {
     setEditingTask(null);
   };
 
-  console.log(users);
-
   return (
     <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
       <div className="flex justify-between items-center mb-4">

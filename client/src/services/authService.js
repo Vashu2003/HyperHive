@@ -1,8 +1,8 @@
-import axios from "../api/axios";
+import axiosInstance from "../api/axios";
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post("/api/auth/login", { email, password });
+    const response = await axiosInstance.post("/api/auth/login", { email, password });
     return response.data; // returns user info + token
   } catch (error) {
     throw error; // Ensure errors are propagated correctly
@@ -11,7 +11,7 @@ export const loginUser = async (email, password) => {
 
 export const registerUser = async (name, email, password) => {
   try {
-    const response = await axios.post("/api/auth/register", { name, email, password });
+    const response = await axiosInstance.post("/api/auth/register", { name, email, password });
     return response.data; // returns new user info + token
   } catch (error) {
     throw error; // Ensure errors are propagated correctly
@@ -20,7 +20,7 @@ export const registerUser = async (name, email, password) => {
 
 export const getUserProfile = async () => {
   try {
-    const res = await axios.get("/api/auth/profile");
+    const res = await axiosInstance.get("/api/auth/profile");
     return res.data; // should be { _id, name, email }
   } catch (error) {
     throw error;
