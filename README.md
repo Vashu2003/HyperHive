@@ -7,7 +7,8 @@ HyperHive is a futuristic collaborative project management platform designed for
 [![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-404D59?style=flat&logo=express)](https://expressjs.com/)
-
+[![Socket.io](https://img.shields.io/badge/Socket.io-404D59?style=flat&logo=socket.io)](https://socket.io/)
+[![Docker](https://img.shields.io/badge/Docker-404D59?style=flat&logo=docker)](https://www.docker.com/)
 ## Live Demo
 
 ### Backend
