@@ -2,20 +2,32 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Plus, Search, Folder, Menu, X } from "lucide-react";
 import { useGroups } from "../context/GroupContext";
-import CreateGroupModal from "../components/CreateGroupModal"; // Make sure this path is correct
+import { useAuth } from "../context/AuthContext"; // 🆕 Make sure this provides email info
+import CreateGroupModal from "../components/CreateGroupModal";
+import GuestRestrictionDialog from "../components/GuestRestrictionDialog"; // 🆕
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [showModal, setShowModal] = useState(false); // Modal toggle state
+  const [showModal, setShowModal] = useState(false);
+  const [showGuestDialog, setShowGuestDialog] = useState(false); // 🆕
   const location = useLocation();
   const { groups, loading, error } = useGroups();
+  const { isGuest } = useAuth(); // 🆕 Assuming this is provided by context
 
   const isActive = (groupId) => location.pathname.includes(`/groups/${groupId}`);
 
   const filteredGroups = groups.filter((group) =>
     group.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleCreateClick = () => {
+    if (isGuest) {
+      setShowGuestDialog(true); // 🛑 Prevent modal, show dialog
+    } else {
+      setShowModal(true); // ✅ Open actual create modal
+    }
+  };
 
   return (
     <>
@@ -32,7 +44,6 @@ const Sidebar = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 transition-transform duration-300 lg:block z-40`}
       >
-        {/* Close (Mobile) */}
         <button
           onClick={() => setIsSidebarOpen(false)}
           className="lg:hidden absolute top-4 right-4 p-2 text-muted-foreground hover:text-primary transition"
@@ -40,22 +51,20 @@ const Sidebar = () => {
           <X className="w-6 h-6" />
         </button>
 
-        {/* Title */}
         <div className="flex items-center gap-2 text-text-light dark:text-text-dark font-mono text-lg">
           <Folder className="w-5 h-5" />
           <span>Projects</span>
         </div>
 
-        {/* Create Project Button */}
+        {/* 🔐 Create Project Button */}
         <button
-          onClick={() => setShowModal(true)}
+          onClick={handleCreateClick}
           className="w-full flex items-center gap-2 text-sm text-primary hover:underline transition font-mono"
         >
           <Plus className="w-4 h-4" />
           Create Project
         </button>
 
-        {/* Search Input */}
         <div className="relative">
           <input
             type="text"
@@ -67,7 +76,6 @@ const Sidebar = () => {
           <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
         </div>
 
-        {/* Group List */}
         <ul className="space-y-2">
           {loading && <li className="text-sm font-mono text-muted-foreground">Loading...</li>}
           {error && <li className="text-sm text-red-500">{error}</li>}
@@ -93,8 +101,11 @@ const Sidebar = () => {
         </ul>
       </aside>
 
-      {/* Create Group Modal */}
+      {/* ✅ Group Modal */}
       <CreateGroupModal isOpen={showModal} onClose={() => setShowModal(false)} />
+
+      {/* 🔐 Guest Warning Dialog */}
+      <GuestRestrictionDialog isOpen={showGuestDialog} onClose={() => setShowGuestDialog(false)} />
     </>
   );
 };

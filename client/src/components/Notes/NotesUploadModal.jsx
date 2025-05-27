@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { X, Check, Plus, Loader } from "lucide-react";
-const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loading = false, error = "" }) => {
+const NotesUploadModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  initialData = null,
+  loading = false,
+  error = "",
+}) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
@@ -17,12 +24,12 @@ const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loadi
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim() || !content.trim()) return;
+    if (!title.trim() || !content.trim() || !file) return;
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    if (file) formData.append("file", file); // Only include file if a new one is selected
+    formData.append("file", file);
 
     await onSubmit(formData);
 
@@ -40,7 +47,9 @@ const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loadi
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">Title</label>
+            <label className="block text-text-light dark:text-text-dark mb-1">
+              Title
+            </label>
             <input
               type="text"
               value={title}
@@ -50,7 +59,9 @@ const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loadi
             />
           </div>
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">Content</label>
+            <label className="block text-text-light dark:text-text-dark mb-1">
+              Description
+            </label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -60,12 +71,15 @@ const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loadi
             />
           </div>
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">File (optional)</label>
+            <label className="block text-text-light dark:text-text-dark mb-1">
+              File
+            </label>
             <input
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.md,.txt"
               onChange={(e) => setFile(e.target.files[0])}
               className="w-full text-text-light dark:text-text-dark"
+              required
             />
           </div>
 
@@ -73,36 +87,24 @@ const NotesUploadModal = ({ isOpen, onClose, onSubmit, initialData = null, loadi
 
           <div className="flex justify-end space-x-3 pt-4">
             <button
-              type="button"
-              onClick={onClose}
-              className="font-semibold font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
-            >
-              <X
-                className="w-5 h-5"
-                color="red"
-              />
-            </button>
-            <button
               type="submit"
-              className="font-semibold font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
+              className="font-semibold border font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
               disabled={loading}
             >
               {loading ? (
-                <Loader
-                  className="w-5 h-5"
-                  color="blue"
-                />
+                <Loader className="w-5 h-5" color="blue" />
               ) : initialData ? (
-                <Check
-                  className="w-5 h-5"
-                  color="green"
-                />
+                <Check className="w-5 h-5" color="green" />
               ) : (
-                <Plus
-                  className="w-5 h-5"
-                  color="blue"
-                />
+                <Plus className="w-5 h-5" color="blue" />
               )}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="font-semibold border font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
+            >
+              <X className="w-5 h-5" color="red" />
             </button>
           </div>
         </form>

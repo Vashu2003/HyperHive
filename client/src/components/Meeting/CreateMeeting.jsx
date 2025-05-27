@@ -62,7 +62,7 @@ const CreateMeeting = ({ groupId, onMeetingCreated }) => {
         <button
           type="submit"
           disabled={loading}
-          className="bg-muted-dark dark:bg-muted-light border border-border-light dark:border-border-dark text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-muted hover:dark:bg-border-dark"
+          className="bg-background-dark dark:bg-background-light border border-border-light dark:border-border-dark text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-muted-dark hover:dark:bg-muted-ligh"
         >
           {loading ? "Creating..." : "Create Meeting"}
         </button>

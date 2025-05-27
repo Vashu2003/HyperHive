@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import { useGroups } from "../../context/GroupContext";
+import { useAuth } from "../../context/AuthContext";
+import GuestRestrictionDialog from "../GuestRestrictionDialog";
 import {
   getTasks,
   createTask,
@@ -19,6 +21,8 @@ const Tasks = ({ groupId }) => {
 
   const { groupMembers, fetchGroupMembers } = useGroups();
   const [users, setUsers] = useState([]);
+  const [showGuestDialog, setShowGuestDialog] = useState(false);
+  const { isGuest } = useAuth();
 
   // Fetch tasks and users
   const loadTasks = async () => {
@@ -50,6 +54,8 @@ const Tasks = ({ groupId }) => {
   }, [groupMembers]);
 
   const handleSubmit = async (taskData) => {
+    if (isGuest) return setShowGuestDialog(true);
+
     try {
       if (editingTask) {
         await updateTask(editingTask._id, taskData);
@@ -66,6 +72,7 @@ const Tasks = ({ groupId }) => {
   };
 
   const handleDelete = async (taskId) => {
+    if (isGuest) return setShowGuestDialog(true);
     if (!window.confirm("Are you sure you want to delete this task?")) return;
     try {
       await deleteTaskService(taskId);
@@ -77,17 +84,19 @@ const Tasks = ({ groupId }) => {
   };
 
   const handleEdit = (task) => {
+    if (isGuest) return setShowGuestDialog(true);
     setEditingTask(task);
     setShowForm(true);
   };
 
   const handleCancel = () => {
+    if (isGuest) return setShowGuestDialog(true);
     setShowForm(false);
     setEditingTask(null);
   };
 
   return (
-    <div className="relative p-4 font-mono text-text-light dark:text-text-dark max-h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+    <div className="relative p-4 font-mono text-text-light dark:text-text-dark h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
           <ClipboardList className="w-6 h-6 text-blue-500" />
@@ -95,6 +104,7 @@ const Tasks = ({ groupId }) => {
         </h2>
         <button
           onClick={() => {
+            if (isGuest) return setShowGuestDialog(true);
             setShowForm(true);
             setEditingTask(null);
           }}
@@ -122,6 +132,8 @@ const Tasks = ({ groupId }) => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+      {/* ✅ Guest Restriction Dialog */}
+      <GuestRestrictionDialog isOpen={showGuestDialog} onClose={() => setShowGuestDialog(false)} />
     </div>
   );
 };

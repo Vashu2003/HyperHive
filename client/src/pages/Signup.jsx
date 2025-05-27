@@ -37,7 +37,7 @@ function Signup() {
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex w-full h-full min-h-screen">
         {/* Left Side: Animation + Info */}
-        <div className="flex-[2] relative bg-gradient-to-b from-muted-dark to-background-dark text-white p-10 flex flex-col justify-center items-start">
+        <div className="flex-[3] relative bg-gradient-to-b from-muted-dark to-background-dark text-white p-10 flex flex-col justify-center items-start">
           <div className="absolute inset-0 z-0">
             <Waves
               lineColor="#ffffff33"

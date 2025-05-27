@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axiosInstance from "../api/axios";
-
+import { useAuth } from "./AuthContext";
 const GroupContext = createContext();
 
 export const useGroups = () => {
@@ -13,6 +13,7 @@ export const GroupProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [nonMembers, setNonMembers] = useState([]); // To store users not in the group
   const [groupMembers, setGroupMembers] = useState([]);
+  const { user, loading: authLoading } = useAuth();
 
   // Fetch groups - now a reusable function
   const fetchGroups = async () => {
@@ -103,8 +104,9 @@ export const GroupProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (authLoading || !user) return; // Wait for auth to load and user to be available
     fetchGroups();
-  }, []);
+  }, [authLoading, user]);
 
   // Create group
   const createGroup = async ({ name, description }) => {

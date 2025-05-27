@@ -48,7 +48,7 @@ const MainSection = ({ groupId }) => {
       </div>
   
       {/* Tab Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto h-[540px]">
         {renderTabContent()}
       </div>
     </div>

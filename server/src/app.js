@@ -12,15 +12,16 @@ import timelineRoutes from "./routes/timelineRoutes.js";
 const app = express();
 const allowedOrigins = [
   "https://hyperhive-frontend.onrender.com",
+  "http://localhost:5173",
   "http://localhost",
 ];
 // Middlewares
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log("Incoming Origin:", req.headers.origin);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("Incoming Origin:", req.headers.origin);
+//   next();
+// });
 
 app.use(
   cors({

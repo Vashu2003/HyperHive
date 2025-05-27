@@ -46,7 +46,7 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
+              className="font-mono w-full px-3 py-2 rounded-md bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark focus:outline-none"
               placeholder="Enter project name"
               required
             />
