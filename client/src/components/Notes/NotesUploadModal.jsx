@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { X, Check, Plus, Loader } from "lucide-react";
+import { X, Loader } from "lucide-react";
+import Modal from "../Modal"; // Adjust path as needed
+
 const NotesUploadModal = ({
   isOpen,
   onClose,
@@ -19,11 +21,8 @@ const NotesUploadModal = ({
     }
   }, [initialData]);
 
-  if (!isOpen) return null;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!title.trim() || !content.trim() || !file) return;
 
     const formData = new FormData();
@@ -40,16 +39,14 @@ const NotesUploadModal = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-background-light dark:bg-background-dark rounded-2xl w-full max-w-md p-6 mx-4 shadow-lg">
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <div className="bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-2xl w-full max-w-md p-6 mx-4 shadow-lg">
         <h2 className="text-xl font-semibold text-text-light dark:text-text-dark mb-4">
           {initialData ? "Edit Attachment" : "Upload Attachment"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">
-              Title
-            </label>
+            <label className="block text-text-light dark:text-text-dark mb-1">Title</label>
             <input
               type="text"
               value={title}
@@ -59,9 +56,7 @@ const NotesUploadModal = ({
             />
           </div>
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">
-              Description
-            </label>
+            <label className="block text-text-light dark:text-text-dark mb-1">Description</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -71,9 +66,7 @@ const NotesUploadModal = ({
             />
           </div>
           <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">
-              File
-            </label>
+            <label className="block text-text-light dark:text-text-dark mb-1">File</label>
             <input
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.md,.txt"
@@ -88,28 +81,22 @@ const NotesUploadModal = ({
           <div className="flex justify-end space-x-3 pt-4">
             <button
               type="submit"
-              className="font-semibold border font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
+              className="font-semibold font-mono px-4 py-2 rounded-xl bg-primary dark:bg-primary-dark text-text-dark dark:text-text-light hover:bg-primary/70 dark:hover:bg-primary-dark/70 transition"
               disabled={loading}
             >
-              {loading ? (
-                <Loader className="w-5 h-5" color="blue" />
-              ) : initialData ? (
-                <Check className="w-5 h-5" color="green" />
-              ) : (
-                <Plus className="w-5 h-5" color="blue" />
-              )}
+              {loading ? <Loader className="w-5 h-5 animate-spin" /> : initialData ? "Update" : "Upload"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="font-semibold border font-mono px-4 py-2 rounded-xl bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark hover:bg-background-light dark:hover:bg-background-dark transition"
+              className="font-semibold font-mono px-4 py-2 rounded-xl text-text-dark dark:text-text-light bg-error dark:bg-error-dark hover:bg-error/70 dark:hover:bg-error-dark/70 transition"
             >
-              <X className="w-5 h-5" color="red" />
+              Cancel
             </button>
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 };
 

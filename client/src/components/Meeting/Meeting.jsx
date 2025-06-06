@@ -10,7 +10,7 @@ import GuestRestrictionDialog from "../GuestRestrictionDialog";
 const Meeting = ({ groupId }) => {
   const { user } = useAuth();
   const { isGuest } = useAuth();
-  const [showForm, setShowForm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [meetings, setMeetings] = useState([]);
   const [activeMeeting, setActiveMeeting] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ const Meeting = ({ groupId }) => {
     if (isGuest) {
       setShowGuestDialog(true);
     } else {
-      setShowForm((prev) => !prev);
+      setShowModal((prev) => !prev);
     }
   };
   const fetchMeetings = async () => {
@@ -38,7 +38,7 @@ const Meeting = ({ groupId }) => {
   };
 
   const handleMeetingCreated = () => {
-    setShowForm(false);
+    setShowModal(false);
     fetchMeetings();
   };
 
@@ -62,19 +62,19 @@ const Meeting = ({ groupId }) => {
   }, [groupId]);
 
   return (
-    <div className="h-[600px] bg-background-light dark:bg-background-dark p-4 text-text-light dark:text-text-dark rounded-xl font-mono overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+    <div className="h-[700px] p-4 text-text-light dark:text-text-dark rounded-xl font-mono overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
       {!activeMeeting ? (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
-              <AppWindow className="w-6 h-6" color="blue" />
+            <h2 className="text-xl font-bold flex font-mono items-center gap-2">
+              <AppWindow className="w-6 h-6 text-primary dark:text-primary-dark" />
               Meetings
             </h2>
             <button
               onClick={toggleForm}
-              className="p-2 border bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+              className="p-2 bg-primary dark:bg-primary-dark text-text-dark dark:text-text-light rounded-lg hover:bg-primary-hover/70 dark:hover:bg-primary-hover-dark/70 transition"
             >
-              {showForm ? (
+              {showModal ? (
                 <>
                   <X className="w-5 h-5" color="red" />
                 </>
@@ -86,10 +86,12 @@ const Meeting = ({ groupId }) => {
             </button>
           </div>
 
-          {showForm && (
+          {showModal && (
             <CreateMeeting
+              isOpen={showModal}
               groupId={groupId}
               onMeetingCreated={handleMeetingCreated}
+              onClose={() => setShowModal(false)}
             />
           )}
 

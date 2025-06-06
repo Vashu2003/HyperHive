@@ -27,8 +27,8 @@ const MeetingList = ({
           key={meeting._id}
           className={`p-4 rounded-xl font-mono ${
             isLive
-              ? "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border border-border-dark dark:border-border-light hover:bg-background-light dark:hover:bg-background-dark transition-all duration-300 ease-in-out hover:shadow-md"
-              : "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border border-border-dark dark:border-border-light hover:bg-background-light dark:hover:bg-background-dark transition-all duration-300 ease-in-out hover:shadow-md"
+              ? "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border border-border-dark dark:border-border-light hover:bg-transparent dark:hover:bg-transparent transition-all duration-300 ease-in-out hover:shadow-md"
+              : "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border border-border-dark dark:border-border-light hover:bg-transparent dark:hover:bg-transparent transition-all duration-300 ease-in-out hover:shadow-md"
           }`}
         >
           <p className="font-semibold">{meeting.title}</p>
@@ -41,7 +41,7 @@ const MeetingList = ({
           <div className="mt-2 flex gap-2">
             <button
               onClick={() => onJoinMeeting(meeting)}
-              className="bg-text-light dark:bg-text-dark text-background-light dark:text-background-dark px-3 py-1 rounded-xl hover:opacity-90 transition-colors duration-200"
+              className="bg-primary dark:bg-primary-dark text-text-dark dark:text-text-light px-3 py-1 rounded-xl hover:opacity-90 transition-colors duration-200"
             >
               Join
             </button>

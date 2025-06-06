@@ -88,7 +88,7 @@ export default function Timeline({ groupId }) {
     <div className="p-4 bg-white dark:bg-background-dark shadow">
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
-          <CalendarDays className="w-6 h-6 text-blue-500" />
+          <CalendarDays className="w-6 h-6 text-primary dark:text-primary-dark" />
             Timeline
         </h2>
 
@@ -125,8 +125,8 @@ export default function Timeline({ groupId }) {
                 onClick={() => setView(key)}
                 className={`px-3 py-1 flex items-center gap-1 text-sm rounded border ${
                   view === key
-                    ? "bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark"
-                    : "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark border-border-light dark:border-border-dark"
+                    ? "bg-primary dark:bg-primary-dark text-text-dark dark:text-text-light"
+                    : "bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark"
                 }`}
               >
                 <Icon className="w-6 h-6" />

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import { loginUser } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
 import Waves from "../components/Waves";
+import FeatureMarquee from "../components/FeatureMarquee";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -33,11 +35,24 @@ function Signup() {
     }
   };
 
+  const handleGuestLogin = async () => {
+      try {
+        const userData = await loginUser("guest@example.com", "123456");
+        login(userData.token);
+        navigate("/");
+      } catch (error) {
+        console.error(
+          "Guest login failed:",
+          error.response?.data?.message || error.message
+        );
+        alert(error.response?.data?.message || "Guest login failed");
+      }
+    };
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
       <div className="flex w-full h-full min-h-screen">
         {/* Left Side: Animation + Info */}
-        <div className="flex-[3] relative bg-gradient-to-b from-muted-dark to-background-dark text-white p-10 flex flex-col justify-center items-start">
+        <div className="flex-[4] relative bg-[#121212] text-white p-10 flex flex-col justify-center items-start backdrop-blur-md">
           <div className="absolute inset-0 z-0">
             <Waves
               lineColor="#ffffff33"
@@ -45,8 +60,10 @@ function Signup() {
               className="w-full h-full"
             />
           </div>
+          {/* Blur overlay above waves */}
+          <div className="absolute inset-0 z-5 backdrop-blur-md"></div>
           <div className="relative z-10 max-w-lg font-mono">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-[#f5d37c] to-[#d4af37] bg-clip-text text-transparent tracking-wide mb-4">
+            <h1 className="text-5xl font-bold bg-primary-dark bg-clip-text text-transparent tracking-wide mb-4">
               HYPERHIVE
             </h1>
             <p className="text-lg">
@@ -54,6 +71,7 @@ function Signup() {
               Streamline your workflow and boost team productivity.
             </p>
           </div>
+          <FeatureMarquee />
         </div>
 
         {/* Right Side: Signup Form */}
@@ -136,6 +154,12 @@ function Signup() {
             >
               Sign Up
             </button>
+            <button
+            onClick={handleGuestLogin}
+            className="w-full py-3 mt-3 bg-gray-800 text-white rounded-full hover:bg-gray-900 transition-all font-mono"
+          >
+            Login as Guest
+          </button>
           </form>
 
           {/* Link to Login */}

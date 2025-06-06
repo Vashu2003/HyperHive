@@ -6,7 +6,7 @@ const TaskControls = ({ onEdit, onDelete }) => {
     <div className="flex gap-3">
       <button
         onClick={onEdit}
-        className="text-muted-foreground hover:text-primary transition"
+        className="text-primary dark:text-primary-dark transition"
         aria-label="Edit task"
       >
         <Edit className="w-5 h-5" />
@@ -14,7 +14,7 @@ const TaskControls = ({ onEdit, onDelete }) => {
 
       <button
         onClick={onDelete}
-        className="text-muted-foreground hover:text-red-500 transition"
+        className="text-error dark:text-error-dark transition"
         aria-label="Delete task"
       >
         <Trash2 className="w-5 h-5" />

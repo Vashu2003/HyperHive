@@ -1,13 +1,26 @@
 import React from "react";
 
 const statusColors = {
-  pending: "text-yellow-500",
-  inProgress: "text-blue-500",
-  completed: "text-green-500",
+  "Pending": "text-error dark:text-error-dark",
+  "In-Progress": "text-primary dark:text-primary-dark",
+  "Completed": "text-success dark:text-success-dark",
+};
+
+const getFormattedStatus = (status) => {
+  switch (status?.toLowerCase()) {
+    case "pending":
+      return "Pending";
+    case "inprogress":
+      return "In-Progress";
+    case "completed":
+      return "Completed";
+    default:
+      return status;
+  }
 };
 
 const TaskItem = ({ task }) => {
-  const status = task.status || "pending";
+  const status = getFormattedStatus(task.status) || "Pending";
   const statusColor = statusColors[status] || "text-gray-500";
 
   return (
@@ -19,17 +32,17 @@ const TaskItem = ({ task }) => {
         <p className="text-sm text-text-light dark:text-text-dark">
           {task.description}
         </p>
-        <p className="text-xs font-mono font-semibold text-text-light dark:text-text-dark mt-1">
-          Due: {new Date(task.dueDate).toLocaleDateString()}
+        <p className="font-mono text-sm font-semibold text-text-light dark:text-text-dark">
+          Assigned to: {task.assignedTo?.name || "Unassigned"}
         </p>
       </div>
-      <div className="flex items-center gap-4 mt-2 sm:mt-0">
-        <span className={`font-mono text-sm font-semibold ${statusColor}`}>
+      <div className="flex items-center gap-2 sm:mt-0 flex-col">
+        <h3 className={`font-mono text-md font-semibold ${statusColor}`}>
           {status}
-        </span>
-        <span className="font-mono text-sm font-semibold text-text-light dark:text-text-dark">
-          Assigned to: {task.assignedTo?.name || "Unassigned"}
-        </span>
+        </h3>
+        <p className="text-xs font-mono text-text-light dark:text-text-dark">
+          Due: {new Date(task.dueDate).toLocaleDateString()}
+        </p>
       </div>
     </div>
   );

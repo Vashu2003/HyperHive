@@ -119,8 +119,8 @@ const Discussions = ({ groupId }) => {
   }, [messages]);
 
   return (
-    <div className="max-h-[540px] bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-mono flex flex-col h-fit rounded-xl">
-      <div className="relative p-4 font-mono max-h-[490px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark space-y-4">
+    <div className="max-h-[700px] dark:text-text-dark font-mono flex flex-col rounded-xl">
+      <div className="relative p-4 font-mono h-[550px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark space-y-4">
         {messages.length === 0 ? (
           <p className="text-text-light dark:text-text-dark italic">
             No messages yet.
@@ -185,10 +185,10 @@ const Discussions = ({ groupId }) => {
           }}
         />
         <button
-          className="bg-muted-light dark:bg-muted-dark hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 text-text-light dark:text-text-dark px-4 py-2 rounded-xl transition"
+          className="bg-primary dark:bg-primary-dark hover:bg-primary/70 dark:hover:bg-primary-dark/70 text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition"
           onClick={sendMessage}
         >
-          <Send className="w-5 h-5" />
+          <Send className="w-5 h-5"/>
         </button>
       </div>
     </div>

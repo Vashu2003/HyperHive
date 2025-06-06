@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TaskList from "./TaskList";
-import TaskForm from "./TaskForm";
+import TaskFormModal from "./TaskFormModal";
 import { useGroups } from "../../context/GroupContext";
 import { useAuth } from "../../context/AuthContext";
 import GuestRestrictionDialog from "../GuestRestrictionDialog";
@@ -40,7 +40,7 @@ const Tasks = ({ groupId }) => {
       setError("Failed to load tasks.");
     } finally {
       setLoading(false);
-    } 
+    }
   };
 
   useEffect(() => {
@@ -96,10 +96,10 @@ const Tasks = ({ groupId }) => {
   };
 
   return (
-    <div className="relative p-4 font-mono text-text-light dark:text-text-dark h-[540px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
-      <div className="flex justify-between items-center mb-4">
+    <div className="relative p-2 font-mono text-text-light dark:text-text-dark h-[650px] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+      <div className="flex justify-between items-center mb-4 p-2">
         <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
-          <ClipboardList className="w-6 h-6 text-blue-500" />
+          <ClipboardList className="w-6 h-6 text-primary dark:text-primary-dark" />
           Tasks
         </h2>
         <button
@@ -108,18 +108,19 @@ const Tasks = ({ groupId }) => {
             setShowForm(true);
             setEditingTask(null);
           }}
-          className="p-2 border bg-muted-light dark:bg-muted-dark text-text-light dark:text-text-dark rounded-lg hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+          className="p-2 bg-primary text-background-light dark:bg-primary-dark dark:text-background-dark rounded-lg hover:bg-primary/70 dark:hover:bg-primary-dark/70 transition"
         >
-          <Plus className="w-5 h-5" color="blue" />
+          <Plus className="w-5 h-5" />
         </button>
       </div>
 
       {showForm && (
         <div className="absolute inset-0 bg-black/50 flex flex-col gap-2 z-10">
-          <TaskForm
-            initialData={editingTask || {}}
+          <TaskFormModal
+            visible={showForm}
+            onClose={handleCancel}
             onSubmit={handleSubmit}
-            onCancel={handleCancel}
+            initialData={editingTask || {}}
             users={users}
           />
         </div>
@@ -133,7 +134,10 @@ const Tasks = ({ groupId }) => {
         onDelete={handleDelete}
       />
       {/* ✅ Guest Restriction Dialog */}
-      <GuestRestrictionDialog isOpen={showGuestDialog} onClose={() => setShowGuestDialog(false)} />
+      <GuestRestrictionDialog
+        isOpen={showGuestDialog}
+        onClose={() => setShowGuestDialog(false)}
+      />
     </div>
   );
 };

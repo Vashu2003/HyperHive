@@ -4,18 +4,47 @@ export default {
   theme: {
     extend: {
       colors: {
-        'background-light': '#ffffff',
-        'background-dark': '#000000',
-        'text-light': '#111111',
-        'text-dark': '#eeeeee',
-        'muted-light': '#f4f4f5',
-        'muted-dark': '#1f1f1f',
-        'border-light': '#e4e4e7',
-        'border-dark': '#27272a',
+        // Light mode
+        'background-light': '#f9fafb',
+        'text-light': '#1a1a1a',
+        'muted-light': '#e5e7eb',
+        'border-light': '#d1d5db',
+
+        // Dark mode
+        'background-dark': '#121212',
+        'text-dark': '#e4e4e7',
+        'muted-dark': '#2a2a2a',
+        'border-dark': '#3a3a3c',
+
+        // Accents
+        'primary': '#6366f1',
+        'primary-hover': '#818cf8',
+        'accent': '#22d3ee',
+        'error': '#ef4444',
+        'success': '#10b981',
+
+        // Dark mode overrides
+        'primary-dark': '#22d3ee',
+        'primary-hover-dark': '#67e8f9',
+        'accent-dark': '#67e8f9',
+        'error-dark': '#f87171',
+        'success-dark': '#34d399',
       },
+
       borderRadius: {
         xl: '1rem',
         '2xl': '1.5rem',
+      },
+
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+
+      animation: {
+        marquee: 'marquee 60s linear infinite',
       },
     },
   },

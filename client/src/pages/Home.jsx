@@ -5,32 +5,30 @@ import GroupDetails from "../components/GroupDetails/GroupDetails";
 import MainSection from "../components/MainSection";
 import { useGroups } from "../context/GroupContext";
 
-function Dashboard() {
-  const { groupId } = useParams(); // 🧠 Get the groupId from the route
+function Dashboard({ activeTab, setActiveTab }) {
+  const { groupId } = useParams();
   const { groups } = useGroups();
 
-  // 🎯 Find the group that matches the URL param
   const groupToShow = groups?.find((g) => g._id === groupId) || groups?.[0];
 
-
   return (
-    <div className="overflow-x-hidden  flex flex-col md:flex-row min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
-      
-      {/* Left: Sidebar */}
-      <aside className="md:w-64 bg-background-light dark:bg-background-dark">
+    <div className="flex flex-col md:flex-row min-h-screen bg-transparent text-text-light dark:text-text-dark scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+
+      {/* Sidebar: fixed width with subtle shadow */}
+      <aside className="md:w-64 bg-transparent border-r border-border-light dark:border-border-dark shadow-md">
         <Sidebar />
       </aside>
-  
-      {/* Middle: Main section (tabs like tasks, notes, etc.) */}
-      <main className="flex-1 px-4 py-6 md:px-6 md:py-8">
-        <MainSection groupId={groupToShow?._id} />
+
+      {/* Main Content: flexible grow, generous padding, max-width to avoid stretching too much on big screens */}
+      <main className="flex-1 max-w-full md:max-w-4xl lg:max-w-5xl mx-auto overflow-y-auto">
+        <MainSection groupId={groupToShow?._id} activeTab={activeTab} setActiveTab={setActiveTab} />
       </main>
-  
-      {/* Right: Group Details */}
-      <aside className="w-full md:w-80 md:px-5 mr-6 md:py-8 bg-background-light dark:bg-background-dark">
+
+      {/* Group Details: sticky on desktop, padding for breathing room, subtle border left */}
+      <aside className="w-full md:w-80 md:sticky md:top-0 md:h-screen bg-transparent border-l border-border-light dark:border-border-dark overflow-y-auto overflow-x-hidden shadow-inner">
         <GroupDetails group={groupToShow} memberData={groupToShow?.members || []} />
       </aside>
-  
+
     </div>
   );
 }
