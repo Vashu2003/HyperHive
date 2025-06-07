@@ -266,17 +266,17 @@ const TaskFormModal = ({
               {/* Buttons */}
               <div className="flex justify-end gap-3 pt-2">
                 <button
-                  type="submit"
-                  className="p-2 px-4 font-semibold font-mono bg-primary dark:bg-primary-dark rounded-xl transition text-text-dark dark:text-text-light"
-                >
-                  {initialData._id ? "Update" : "Create"}
-                </button>
-                <button
                   type="button"
                   onClick={onClose}
                   className="p-2 px-4 font-semibold font-mono bg-error dark:bg-error-dark rounded-xl transition text-text-dark dark:text-text-light"
                 >
                   Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="p-2 px-4 font-semibold font-mono bg-primary dark:bg-primary-dark rounded-xl transition text-text-dark dark:text-text-light"
+                >
+                  {initialData._id ? "Update" : "Create"}
                 </button>
               </div>
             </form>

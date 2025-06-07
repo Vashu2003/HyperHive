@@ -61,18 +61,18 @@ const CreateMeeting = ({ groupId, onMeetingCreated, isOpen, onClose }) => {
           {/* Actions */}
           <div className="flex justify-end gap-2">
             <button
-              type="submit"
-              disabled={loading}
-              className="font-semibold bg-primary dark:bg-primary-dark border border-border-light dark:border-border-dark text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-primary-hover dark:hover:bg-primary-hover-dark"
-            >
-              {loading ? "Creating..." : "Create"}
-            </button>
-            <button
               type="button"
               onClick={onClose}
               className="font-semibold bg-error dark:bg-error-dark border border-border-light dark:border-border-dark text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-error/70 dark:hover:bg-error-dark/70"
             >
               Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="font-semibold bg-primary dark:bg-primary-dark border border-border-light dark:border-border-dark text-text-dark dark:text-text-light px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-primary-hover dark:hover:bg-primary-hover-dark"
+            >
+              {loading ? "Creating..." : "Create"}
             </button>
           </div>
         </form>

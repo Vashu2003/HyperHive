@@ -91,13 +91,13 @@ const CreateGroupModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm text-error hover:text-red-600 bg-muted-light dark:bg-muted-dark rounded-xl hover:bg-muted-light/70 dark:hover:bg-muted-dark/70 transition"
+              className="px-4 py-2 text-sm text-text-dark font-bold dark:text-text-light bg-error hover:bg-error-hover dark:bg-error-dark dark:hover:bg-error-hover-dark rounded-xl transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm text-white bg-primary hover:bg-primary-hover rounded-xl transition"
+              className="px-4 py-2 text-sm text-text-dark font-bold dark:text-text-light bg-primary hover:bg-primary-hover dark:bg-primary-dark dark:hover:bg-primary-hover-dark rounded-xl transition"
             >
               Create
             </button>

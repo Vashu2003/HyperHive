@@ -3,8 +3,6 @@ import { Plus } from "lucide-react";
 
 const roleColors = {
   admin: "bg-purple-200 text-purple-800 border-purple-300 dark:bg-purple-700 dark:text-purple-200",
-  guest: "bg-gray-200 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200",
-  member: "bg-blue-200 text-blue-800 border-blue-300 dark:bg-blue-700 dark:text-blue-200",
   // add more roles & colors here if needed
 };
 
@@ -38,7 +36,7 @@ const NonMemberList = ({ nonMembers, handleAddMember }) => {
               {/* Role badge */}
               {user.role && (
                 <span
-                  className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${roleColors[user.role.toLowerCase()] || roleColors.member}`}
+                className={`text-[10px] text-center font-thin font-mono px-2 py-0.5 rounded-full border text-gray-500 border-gray-400 dark:text-gray-400 dark:border-gray-700`}
                 >
                   {user.role}
                 </span>
@@ -48,7 +46,7 @@ const NonMemberList = ({ nonMembers, handleAddMember }) => {
             <button
               onClick={() => handleAddMember(user._id)}
               aria-label={`Add ${user.name}`}
-              className="p-1 rounded-lg text-primary hover:text-primary-hover dark:text-primary-dark dark:hover:text-primary-hover-dark transition"
+              className="p-1 rounded-lg ml-2 text-primary hover:text-primary-hover dark:text-primary-dark dark:hover:text-primary-hover-dark transition"
             >
               <Plus className="w-4 h-4" />
             </button>

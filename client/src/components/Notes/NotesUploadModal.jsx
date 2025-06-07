@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { X, Loader } from "lucide-react";
-import Modal from "../Modal"; // Adjust path as needed
+import { X, Loader, UploadCloud } from "lucide-react";
+import Modal from "../Modal";
 
 const NotesUploadModal = ({
   isOpen,
@@ -13,6 +13,7 @@ const NotesUploadModal = ({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -36,6 +37,15 @@ const NotesUploadModal = ({
     setContent("");
     setFile(null);
     onClose();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      setFile(e.dataTransfer.files[0]);
+      e.dataTransfer.clearData();
+    }
   };
 
   return (
@@ -65,33 +75,61 @@ const NotesUploadModal = ({
               required
             />
           </div>
-          <div>
-            <label className="block text-text-light dark:text-text-dark mb-1">File</label>
+
+          {/* Drag and Drop */}
+          <div
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={() => setIsDragging(false)}
+            onDrop={handleDrop}
+            className={`w-full border-2 rounded-xl px-4 py-8 flex flex-col items-center justify-center transition ${
+              isDragging
+                ? "border-blue-400 bg-blue-100 dark:bg-blue-900/20"
+                : "border-dashed border-border-light dark:border-border-dark"
+            }`}
+          >
+            <UploadCloud className="w-8 h-8 mb-2 text-gray-500 dark:text-gray-300" />
+            <p className="text-sm text-gray-500 dark:text-gray-300">
+              Drag & drop a file here, or click to select
+            </p>
             <input
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.md,.txt"
               onChange={(e) => setFile(e.target.files[0])}
-              className="w-full text-text-light dark:text-text-dark"
-              required
+              className="hidden"
+              id="fileInput"
             />
+            <label
+              htmlFor="fileInput"
+              className="mt-2 px-3 py-1 bg-primary dark:bg-primary-dark rounded-lg text-sm font-mono text-text-dark dark:text-text-light cursor-pointer hover:bg-primary/70"
+            >
+              Choose File
+            </label>
+            {file && (
+              <p className="mt-2 text-sm text-green-600 dark:text-green-400">
+                Selected: {file.name}
+              </p>
+            )}
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
           <div className="flex justify-end space-x-3 pt-4">
+          <button
+              type="button"
+              onClick={onClose}
+              className="font-semibold font-mono px-4 py-2 rounded-xl text-text-dark dark:text-text-light bg-error dark:bg-error-dark hover:bg-error/70 dark:hover:bg-error-dark/70 transition"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               className="font-semibold font-mono px-4 py-2 rounded-xl bg-primary dark:bg-primary-dark text-text-dark dark:text-text-light hover:bg-primary/70 dark:hover:bg-primary-dark/70 transition"
               disabled={loading}
             >
               {loading ? <Loader className="w-5 h-5 animate-spin" /> : initialData ? "Update" : "Upload"}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="font-semibold font-mono px-4 py-2 rounded-xl text-text-dark dark:text-text-light bg-error dark:bg-error-dark hover:bg-error/70 dark:hover:bg-error-dark/70 transition"
-            >
-              Cancel
             </button>
           </div>
         </form>
