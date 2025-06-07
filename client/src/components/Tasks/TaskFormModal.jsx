@@ -3,11 +3,21 @@ import { Check, Plus, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Modal from "../Modal"; // make sure this exists and handles `children` properly
 
-const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [] }) => {
+const TaskFormModal = ({
+  visible,
+  onClose,
+  onSubmit,
+  initialData = {},
+  users = [],
+}) => {
   const [title, setTitle] = useState(initialData.title || "");
   const [description, setDescription] = useState(initialData.description || "");
-  const [dueDate, setDueDate] = useState(initialData.dueDate ? initialData.dueDate.slice(0, 10) : "");
-  const [assignedTo, setAssignedTo] = useState(initialData.assignedTo?._id || "");
+  const [dueDate, setDueDate] = useState(
+    initialData.dueDate ? initialData.dueDate.slice(0, 10) : ""
+  );
+  const [assignedTo, setAssignedTo] = useState(
+    initialData.assignedTo?._id || ""
+  );
   const [status, setStatus] = useState(initialData.status || "Pending");
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
@@ -36,6 +46,56 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
       setSubmitError("Failed to save task. Please try again.");
     }
   };
+
+  // 🔎 Keyword to role mapping
+  const roleKeywords = {
+    frontend: ["frontend", "ui", "css", "react", "html"],
+    backend: ["backend", "api", "server", "node", "express"],
+    "full stack": ["full stack", "fullstack"],
+    devops: ["devops", "docker", "kubernetes", "pipeline", "ci/cd"],
+    qa: ["test", "qa", "quality assurance"],
+    mobile: ["mobile", "android", "ios", "flutter", "react native"],
+    security: ["security", "auth", "authorization", "jwt", "encryption"],
+    database: ["database", "sql", "mongo", "db"],
+  };
+
+  const getMatchingRoles = (title) => {
+    const titleLower = title.toLowerCase();
+    const matchedRoles = new Set();
+
+    Object.entries(roleKeywords).forEach(([roleKey, keywords]) => {
+      if (keywords.some((keyword) => titleLower.includes(keyword))) {
+        matchedRoles.add(roleKey);
+      }
+    });
+
+    return [...matchedRoles];
+  };
+
+  // Normalize string helper (lowercase, remove spaces)
+  const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+
+  // 🧠 Suggest users based on title input
+  const suggestedRoles = getMatchingRoles(title);
+
+  // Debug consoles
+  // console.log("Suggested Roles:", suggestedRoles);
+  // console.log(
+  //   "All Users:",
+  //   users.map((u) => ({ name: u.name, role: u.role }))
+  // );
+
+  const suggestedUsers = users.filter((user) => {
+    if (!user.role || user.name.toLowerCase() === "guest") return false;
+    const normalizedUserRole = normalize(user.role);
+    return suggestedRoles.some((role) => normalizedUserRole.includes(normalize(role)));
+  });
+
+  const otherUsers = users.filter((user) => {
+    if (!user.role || user.name.toLowerCase() === "guest") return false;
+    const normalizedUserRole = normalize(user.role);
+    return !suggestedRoles.some((role) => normalizedUserRole.includes(normalize(role)));
+  });
 
   return (
     <AnimatePresence>
@@ -67,16 +127,18 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
                 <h2 className="text-lg font-mono font-semibold text-text-light dark:text-text-dark">
                   {initialData._id ? "Edit Task" : "New Task"}
                 </h2>
-                {/* <button onClick={onClose} type="button" className="bg-error dark:bg-error-dark rounded-lg p-2">
-                  <X className="w-5 h-5 font-bold text-text-dark dark:text-text-light" />
-                </button> */}
               </div>
 
-              {submitError && <p className="text-red-500 text-sm font-mono">{submitError}</p>}
+              {submitError && (
+                <p className="text-red-500 text-sm font-mono">{submitError}</p>
+              )}
 
               {/* Title */}
               <div>
-                <label htmlFor="title" className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark"
+                >
                   Title
                 </label>
                 <input
@@ -86,14 +148,21 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
                     setTitle(e.target.value);
                     setErrors((prev) => ({ ...prev, title: "" }));
                   }}
-                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark"
                 />
-                {errors.title && <p className="text-red-500 text-xs font-mono mt-1">{errors.title}</p>}
+                {errors.title && (
+                  <p className="text-red-500 text-xs font-mono mt-1">
+                    {errors.title}
+                  </p>
+                )}
               </div>
 
               {/* Description */}
               <div>
-                <label htmlFor="description" className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark"
+                >
                   Description
                 </label>
                 <textarea
@@ -101,14 +170,17 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
                   rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark resize-none"
                 />
               </div>
 
               {/* Due Date & Assign To */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="dueDate" className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark">
+                  <label
+                    htmlFor="dueDate"
+                    className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark"
+                  >
                     Due Date
                   </label>
                   <input
@@ -119,13 +191,20 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
                       setDueDate(e.target.value);
                       setErrors((prev) => ({ ...prev, dueDate: "" }));
                     }}
-                    className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark"
                   />
-                  {errors.dueDate && <p className="text-red-500 text-xs font-mono mt-1">{errors.dueDate}</p>}
+                  {errors.dueDate && (
+                    <p className="text-red-500 text-xs font-mono mt-1">
+                      {errors.dueDate}
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="assignedTo" className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark">
+                  <label
+                    htmlFor="assignedTo"
+                    className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark"
+                  >
                     Assign To
                   </label>
                   <select
@@ -138,26 +217,45 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
                     className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">Unassigned</option>
-                    {users.map((user) => (
-                      <option key={user._id} value={user._id}>
-                        {user.name}
-                      </option>
-                    ))}
+                    {suggestedUsers.length > 0 && (
+                      <optgroup label="Suggested">
+                        {suggestedUsers.map((user) => (
+                          <option key={user._id} value={user._id}>
+                            {user.name} ({user.role})
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+
+                    <optgroup label="All Members">
+                      {otherUsers.map((user) => (
+                        <option key={user._id} value={user._id}>
+                          {user.name} ({user.role})
+                        </option>
+                      ))}
+                    </optgroup>
                   </select>
-                  {errors.assignedTo && <p className="text-red-500 text-xs font-mono mt-1">{errors.assignedTo}</p>}
+                  {errors.assignedTo && (
+                    <p className="text-red-500 text-xs font-mono mt-1">
+                      {errors.assignedTo}
+                    </p>
+                  )}
                 </div>
               </div>
 
               {/* Status */}
               <div>
-                <label htmlFor="status" className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark">
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-mono mb-1 text-text-light dark:text-text-dark"
+                >
                   Status
                 </label>
                 <select
                   id="status"
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 rounded-lg bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark text-text-light dark:text-text-dark font-mono focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark"
                 >
                   <option value="pending">Pending</option>
                   <option value="inProgress">In Progress</option>
@@ -169,14 +267,14 @@ const TaskFormModal = ({ visible, onClose, onSubmit, initialData = {}, users = [
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="submit"
-                  className="p-2 px-4 font-semibold font-mono bg-primary dark:bg-primary-dark rounded-xl transition"
+                  className="p-2 px-4 font-semibold font-mono bg-primary dark:bg-primary-dark rounded-xl transition text-text-dark dark:text-text-light"
                 >
                   {initialData._id ? "Update" : "Create"}
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="p-2 px-4 font-semibold font-mono bg-error dark:bg-error-dark rounded-xl transition"
+                  className="p-2 px-4 font-semibold font-mono bg-error dark:bg-error-dark rounded-xl transition text-text-dark dark:text-text-light"
                 >
                   Cancel
                 </button>

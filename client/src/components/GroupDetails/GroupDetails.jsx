@@ -133,7 +133,7 @@ const GroupDetails = ({ group }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 30 }}
         transition={{ duration: 0.3 }}
-        className="w-full md:w-80 p-4 font-mono space-y-4 relative z-1100"
+        className="w-full md:w-80 p-4 font-mono space-y-4 relative z-1100 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark"
       >
         <GroupHeader
           isEditing={isEditing}

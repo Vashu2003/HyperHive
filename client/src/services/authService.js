@@ -9,9 +9,9 @@ export const loginUser = async (email, password) => {
   }
 };
 
-export const registerUser = async (name, email, password) => {
+export const registerUser = async (name, email, password, role) => {
   try {
-    const response = await axiosInstance.post("/api/auth/register", { name, email, password });
+    const response = await axiosInstance.post("/api/auth/register", { name, email, password, role });
     return response.data; // returns new user info + token
   } catch (error) {
     throw error; // Ensure errors are propagated correctly

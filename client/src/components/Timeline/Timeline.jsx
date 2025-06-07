@@ -85,7 +85,7 @@ export default function Timeline({ groupId }) {
   if (error) return <div className="text-red-500 p-4">{error}</div>;
 
   return (
-    <div className="p-4 bg-white dark:bg-background-dark shadow">
+    <div className="p-4 bg-transparent">
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <h2 className="text-xl font-bold flex font-mono items-center gap-2 text-text-light dark:text-text-dark">
           <CalendarDays className="w-6 h-6 text-primary dark:text-primary-dark" />

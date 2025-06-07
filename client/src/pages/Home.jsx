@@ -12,7 +12,7 @@ function Dashboard({ activeTab, setActiveTab }) {
   const groupToShow = groups?.find((g) => g._id === groupId) || groups?.[0];
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-transparent text-text-light dark:text-text-dark scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
+    <div className="flex flex-col md:flex-row h-screen bg-transparent text-text-light dark:text-text-dark overflow-y-auto scrollbar-thin scrollbar-thumb-muted-dark dark:scrollbar-thumb-muted-light scrollbar-track-muted-light dark:scrollbar-track-muted-dark">
 
       {/* Sidebar: fixed width with subtle shadow */}
       <aside className="md:w-64 bg-transparent border-r border-border-light dark:border-border-dark shadow-md">

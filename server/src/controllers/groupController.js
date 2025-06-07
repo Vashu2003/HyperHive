@@ -29,7 +29,7 @@ export const getGroups = async (req, res) => {
   try {
     const groups = await Group.find({ members: req.user._id })
       .populate("createdBy", "name email")
-      .populate("members", "name email");
+      .populate("members", "name email role");
 
     res.status(200).json(groups);
   } catch (error) {
@@ -106,7 +106,7 @@ export const getNonMembers = async (req, res) => {
     // Get users NOT in the group's members array
     const users = await User.find({
       _id: { $nin: group.members },
-    }).select("name email");
+    }).select("name email role");
 
     res.status(200).json(users);
   } catch (error) {
@@ -129,7 +129,7 @@ export const getGroupMembers = async (req, res) => {
     // Get users whose IDs are in the group's members array
     const users = await User.find({
       _id: { $in: group.members },
-    }).select("name email");
+    }).select("name email role");
 
     res.status(200).json(users);
   } catch (error) {

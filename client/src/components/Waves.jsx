@@ -4,7 +4,9 @@ class Grad {
   constructor(x, y, z) {
     this.x = x; this.y = y; this.z = z;
   }
-  dot2(x, y) { return this.x * x + this.y * y; }
+  dot2(x, y) {
+    return this.x * x + this.y * y;
+  }
 }
 
 class Noise {
@@ -31,6 +33,7 @@ class Noise {
     this.gradP = new Array(512);
     this.seed(seed);
   }
+
   seed(seed) {
     if (seed > 0 && seed < 1) seed *= 65536;
     seed = Math.floor(seed);
@@ -41,8 +44,15 @@ class Noise {
       this.gradP[i] = this.gradP[i + 256] = this.grad3[v % 12];
     }
   }
-  fade(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-  lerp(a, b, t) { return (1 - t) * a + t * b; }
+
+  fade(t) {
+    return t * t * t * (t * (t * 6 - 15) + 10);
+  }
+
+  lerp(a, b, t) {
+    return (1 - t) * a + t * b;
+  }
+
   perlin2(x, y) {
     let X = Math.floor(x), Y = Math.floor(y);
     x -= X; y -= Y; X &= 255; Y &= 255;
@@ -51,11 +61,7 @@ class Noise {
     const n10 = this.gradP[X + 1 + this.perm[Y]].dot2(x - 1, y);
     const n11 = this.gradP[X + 1 + this.perm[Y + 1]].dot2(x - 1, y - 1);
     const u = this.fade(x);
-    return this.lerp(
-      this.lerp(n00, n10, u),
-      this.lerp(n01, n11, u),
-      this.fade(y)
-    );
+    return this.lerp(this.lerp(n00, n10, u), this.lerp(n01, n11, u), this.fade(y));
   }
 }
 
@@ -80,14 +86,8 @@ const Waves = ({
   const boundingRef = useRef({ width: 0, height: 0, left: 0, top: 0 });
   const noiseRef = useRef(new Noise(Math.random()));
   const linesRef = useRef([]);
-  const mouseRef = useRef({
-    x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false
-  });
-
-  const configRef = useRef({
-    lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY,
-    friction, tension, maxCursorMove, xGap, yGap
-  });
+  const mouseRef = useRef({ x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false });
+  const configRef = useRef({ lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove, xGap, yGap });
   const frameIdRef = useRef(null);
 
   useEffect(() => {
@@ -100,9 +100,10 @@ const Waves = ({
     ctxRef.current = canvas.getContext("2d");
 
     function setSize() {
-      boundingRef.current = container.getBoundingClientRect();
-      canvas.width = boundingRef.current.width;
-      canvas.height = boundingRef.current.height;
+      const bounds = container.getBoundingClientRect();
+      boundingRef.current = bounds;
+      canvas.width = bounds.width;
+      canvas.height = bounds.height;
     }
 
     function setLines() {
@@ -117,12 +118,7 @@ const Waves = ({
       for (let i = 0; i <= totalLines; i++) {
         const pts = [];
         for (let j = 0; j <= totalPoints; j++) {
-          pts.push({
-            x: xStart + xGap * i,
-            y: yStart + yGap * j,
-            wave: { x: 0, y: 0 },
-            cursor: { x: 0, y: 0, vx: 0, vy: 0 }
-          });
+          pts.push({ x: xStart + xGap * i, y: yStart + yGap * j, wave: { x: 0, y: 0 }, cursor: { x: 0, y: 0, vx: 0, vy: 0 } });
         }
         linesRef.current.push(pts);
       }
@@ -161,9 +157,9 @@ const Waves = ({
       });
     }
 
-    function moved(point, withCursor = true) {
-      const x = point.x + point.wave.x + (withCursor ? point.cursor.x : 0);
-      const y = point.y + point.wave.y + (withCursor ? point.cursor.y : 0);
+    function moved(p, withCursor = true) {
+      const x = p.x + p.wave.x + (withCursor ? p.cursor.x : 0);
+      const y = p.y + p.wave.y + (withCursor ? p.cursor.y : 0);
       return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
     }
 
@@ -200,21 +196,11 @@ const Waves = ({
       mouse.a = Math.atan2(dy, dx);
       container.style.setProperty("--x", `${mouse.sx}px`);
       container.style.setProperty("--y", `${mouse.sy}px`);
-
       movePoints(t);
       drawLines();
       frameIdRef.current = requestAnimationFrame(tick);
     }
 
-    function onResize() {
-      setSize();
-      setLines();
-    }
-    function onMouseMove(e) { updateMouse(e.clientX, e.clientY); }
-    function onTouchMove(e) {
-      const touch = e.touches[0];
-      updateMouse(touch.clientX, touch.clientY);
-    }
     function updateMouse(x, y) {
       const mouse = mouseRef.current, b = boundingRef.current;
       mouse.x = x - b.left;
@@ -226,15 +212,29 @@ const Waves = ({
       }
     }
 
+    function onMouseMove(e) {
+      updateMouse(e.clientX, e.clientY);
+    }
+
+    function onTouchMove(e) {
+      const touch = e.touches[0];
+      updateMouse(touch.clientX, touch.clientY);
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      setSize();
+      setLines();
+    });
+    resizeObserver.observe(container);
+
     setSize();
     setLines();
     frameIdRef.current = requestAnimationFrame(tick);
-    window.addEventListener("resize", onResize);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("touchmove", onTouchMove, { passive: false });
 
     return () => {
-      window.removeEventListener("resize", onResize);
+      resizeObserver.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchmove", onTouchMove);
       cancelAnimationFrame(frameIdRef.current);
@@ -244,10 +244,7 @@ const Waves = ({
   return (
     <div
       ref={containerRef}
-      style={{
-        backgroundColor,
-        ...style
-      }}
+      style={{ backgroundColor, ...style }}
       className={`absolute top-0 left-0 w-full h-full overflow-hidden ${className}`}
     >
       <div
@@ -257,12 +254,9 @@ const Waves = ({
           willChange: "transform"
         }}
       />
-      <canvas
-        ref={canvasRef}
-        className="block w-full h-full"
-      />
+      <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   );
-}
+};
 
 export default Waves;

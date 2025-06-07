@@ -47,6 +47,7 @@ const Tasks = ({ groupId }) => {
     if (!groupId) return;
     loadTasks();
     fetchGroupMembers(groupId);
+    // console.log(groupMembers);
   }, [groupId]);
 
   useEffect(() => {
@@ -115,7 +116,7 @@ const Tasks = ({ groupId }) => {
       </div>
 
       {showForm && (
-        <div className="absolute inset-0 bg-black/50 flex flex-col gap-2 z-10">
+        <div className="">
           <TaskFormModal
             visible={showForm}
             onClose={handleCancel}

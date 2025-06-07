@@ -3,9 +3,6 @@ import { Trash2 } from "lucide-react";
 
 const roleColors = {
   admin: "bg-purple-200 text-purple-800 border-purple-300 dark:bg-purple-700 dark:text-purple-200",
-  guest: "bg-gray-200 text-gray-800 border-gray-300 dark:bg-gray-700 dark:text-gray-200",
-  member: "bg-blue-200 text-blue-800 border-blue-300 dark:bg-blue-700 dark:text-blue-200",
-  // add more roles/colors as needed
 };
 
 const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
@@ -13,6 +10,7 @@ const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
 
   const limit = 3;
   const displayedMembers = showAll ? members : members.slice(0, limit);
+  
 
   return (
     <div className="font-mono bg-muted-light dark:bg-muted-dark border border-border-light dark:border-border-dark rounded-2xl p-4 shadow-sm">
@@ -30,8 +28,7 @@ const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
 
       <ul className="space-y-2 text-sm text-text-light dark:text-text-dark">
         {displayedMembers.map((member) => {
-          if (!member) return null; // Safety check
-
+          if (!member) return null;
           const isCreator = member._id === group.createdBy?._id;
 
           return (
@@ -39,30 +36,32 @@ const MemberList = ({ members, isEditing, handleRemoveMember, group }) => {
               key={member._id}
               className="flex justify-between items-center px-2 py-1 rounded-md hover:bg-background-light dark:hover:bg-background-dark transition"
             >
-              <div className="flex items-center space-x-24 justify-between">
+              <div className="flex items-center justify-between w-full gap-2">
                 <span>{member.name}</span>
 
-                {/* Role badge */}
-                {member.role && (
-                  <span
-                    className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${roleColors[member.role.toLowerCase()] || roleColors.member}`}
-                  >
-                    {member.role}
-                  </span>
-                )}
+                <div className="flex gap-2 items-center flex-wrap justify-start">
+                  {/* Role badge */}
+                  {member.role && !isCreator && (
+                    <span
+                      className={`text-[10px] text-center font-thin font-mono px-2 py-0.5 rounded-full border text-gray-500 border-gray-400 dark:text-gray-400 dark:border-gray-700`}
+                    >
+                      {member.role}
+                    </span>
+                  )}
 
-                {/* Creator badge */}
-                {isCreator && (
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full border border-yellow-400 bg-yellow-500 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100">
-                    Admin
-                  </span>
-                )}
+                  {/* Creator badge */}
+                  {isCreator && (
+                    <span className="text-xs font-thin font-mono px-2 py-0.5 rounded-full border border-yellow-400 bg-yellow-500 text-yellow-700 dark:bg-yellow-600 dark:text-yellow-100">
+                      Admin
+                    </span>
+                  )}
+                </div>
               </div>
 
               {isEditing && !isCreator && (
                 <button
                   onClick={() => handleRemoveMember(member._id)}
-                  className="text-red-500 text-xs hover:underline"
+                  className="text-red-500 ml-2 text-xs hover:underline"
                   aria-label={`Remove ${member.name}`}
                 >
                   <Trash2 className="w-4 h-4" />

@@ -16,7 +16,7 @@ function App() {
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   return (
-    <div className="relative min-h-screen bg-background-light dark:bg-background-dark overflow-hidden text-text-light dark:text-text-dark">
+    <div className="relative min-h-screen bg-background-light dark:bg-background-dark overflow-hidden text-text-light dark:text-text-dark ">
       
       {/* 🌊 Waves Background */}
       <div className="pointer-events-none fixed inset-0 z-0">

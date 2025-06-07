@@ -18,7 +18,23 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please provide a password'],
     minlength: 6,
   },
+  role: {
+    type: String,
+    required: [true, 'Please select a technical role'],
+    enum: [
+      'Frontend Developer',
+      'Backend Developer',
+      'Full Stack Developer',
+      'DevOps Engineer',
+      'Database Administrator',
+      'QA Engineer',
+      'Mobile App Developer',
+      'Security Engineer',
+      'Other'
+    ],
+  },
 }, { timestamps: true });
+
 
 // Hash password before saving
 userSchema.pre('save', async function (next) {
