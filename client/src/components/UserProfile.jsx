@@ -34,6 +34,7 @@ function UserProfile() {
     );
   }
 
+  // console.log(user);
   return (
     <div className="p-6 font-mono space-y-6 rounded-2xl border border-border-light dark:border-border-dark shadow-lg
       bg-background-light/95 dark:bg-background-dark/95
@@ -52,9 +53,10 @@ function UserProfile() {
           {user.name?.charAt(0) ?? "U"}
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-text-light dark:text-text-dark">
+          <h2 className="text-lg font-semibold text-primary dark:text-primary-dark">
             {user.name}
           </h2>
+          <span className="text-sm text-text-light dark:text-text-dark">{user.role}</span>
           <p className="text-sm text-text-light dark:text-text-dark">{user.email}</p>
         </div>
       </div>
